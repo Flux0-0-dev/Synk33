@@ -1,5 +1,5 @@
-# SYNK:33
-A shameless ~~copy~~ _inspiration_ 3 lane Rhythm game
+# MinimalProjectTemplate
+The official 100 Devs - 1 Game Minimal Project Template
 
 Put your project under `src/`
 
