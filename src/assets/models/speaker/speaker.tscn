@@ -1,11 +1,25 @@
-[gd_scene load_steps=10 format=3 uid="uid://cginamruiifir"]
+[gd_scene load_steps=9 format=3 uid="uid://cginamruiifir"]
 
-[ext_resource type="PackedScene" uid="uid://d25skiasdqvgf" path="res://models/speaker/speaker_base.gltf" id="1_4kskb"]
-[ext_resource type="Material" uid="uid://ct1kxrnm13cyy" path="res://materials/simple/black.tres" id="3_jvmb4"]
-[ext_resource type="ArrayMesh" uid="uid://dbyr3s0c4w03d" path="res://models/speaker/speaker.mesh" id="4_jvmb4"]
-[ext_resource type="Script" uid="uid://bc8scd0ip0jfj" path="res://scripts/speaker_react.gd" id="6_jmv4k"]
-[ext_resource type="Material" uid="uid://dkib8rbtkqyrl" path="res://materials/simple/casal.tres" id="7_w4c6a"]
-[ext_resource type="Material" uid="uid://c3arkj22cceg4" path="res://materials/simple/orange.tres" id="8_yat6u"]
+[ext_resource type="PackedScene" uid="uid://d25skiasdqvgf" path="res://assets/models/speaker/speaker_base.gltf" id="1_4kskb"]
+[ext_resource type="Material" uid="uid://ct1kxrnm13cyy" path="res://assets/materials/simple/black.tres" id="3_jvmb4"]
+[ext_resource type="ArrayMesh" uid="uid://dbyr3s0c4w03d" path="res://assets/models/speaker/speaker.mesh" id="4_jvmb4"]
+[ext_resource type="Material" uid="uid://dkib8rbtkqyrl" path="res://assets/materials/simple/casal.tres" id="7_w4c6a"]
+[ext_resource type="Material" uid="uid://c3arkj22cceg4" path="res://assets/materials/simple/orange.tres" id="8_yat6u"]
+
+[sub_resource type="Animation" id="Animation_q8hrt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("speaker_01:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 50, 6)]
+}
 
 [sub_resource type="Animation" id="Animation_jmv4k"]
 resource_name = "speaker_react"
@@ -22,21 +36,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1.6817931, 0.8408964, 2.0000005),
 "update": 0,
 "values": [Vector3(0, 50, 6), Vector3(0, 50, 8), Vector3(0, 50, 6)]
-}
-
-[sub_resource type="Animation" id="Animation_q8hrt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("speaker_01:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 50, 6)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ugdmg"]
@@ -61,7 +60,6 @@ surface_material_override/1 = ExtResource("3_jvmb4")
 surface_material_override/2 = ExtResource("8_yat6u")
 surface_material_override/3 = ExtResource("3_jvmb4")
 surface_material_override/4 = ExtResource("7_w4c6a")
-script = ExtResource("6_jmv4k")
 
 [node name="speaker_02" type="MeshInstance3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 37.405, 6)

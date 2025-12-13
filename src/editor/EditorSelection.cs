@@ -33,7 +33,7 @@ public static class EditorSelection {
         if (sixteenthFrac > 0.001) {
             timeText += $"{sixteenthFrac:0.##}".Substring(1) + "+";
         }
-        
+
         selectedTimeLabel.Text = timeText;
         state.SelectedTime = new NoteTime((long)bar, (long)beat, sixteenth);
     }

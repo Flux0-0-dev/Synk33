@@ -1,23 +1,26 @@
-[gd_scene load_steps=20 format=3 uid="uid://dkluvwvfg2iyk"]
+[gd_scene load_steps=23 format=3 uid="uid://dkluvwvfg2iyk"]
 
 [ext_resource type="PackedScene" uid="uid://cbpbta52owj4a" path="res://assets/models/rails/rail_02_better_size.tscn" id="1_gagx4"]
+[ext_resource type="Resource" uid="uid://dnxsyxpims5nl" path="res://assets/charts/debug_song/debug_song_expert.tres" id="2_78aa7"]
 [ext_resource type="PackedScene" uid="uid://diqccqrvjnp2d" path="res://assets/models/rails/rail_02_better_size_blue.tscn" id="2_nbd8l"]
 [ext_resource type="PackedScene" uid="uid://b6b5i7y5wwrq1" path="res://assets/models/rails/rail_02_better_size_orange.tscn" id="3_hwkc4"]
 [ext_resource type="PackedScene" uid="uid://db0oq6el5wm2v" path="res://assets/models/buttons/fret_button/fret_button_purple.tscn" id="4_g7d3g"]
 [ext_resource type="PackedScene" uid="uid://qmt2eoy0f00s" path="res://assets/models/buttons/note_button/note_button_black.tscn" id="5_y1xxd"]
+[ext_resource type="Script" uid="uid://l5osvw7nm7tr" path="res://core/ScoreManager.cs" id="6_18uvy"]
 [ext_resource type="PackedScene" uid="uid://dpyixev5hxkpu" path="res://assets/models/buttons/fret_button/fret_button_blue.tscn" id="6_hialq"]
 [ext_resource type="PackedScene" uid="uid://khpu4o08b3bd" path="res://assets/models/buttons/fret_button/fret_button_orange.tscn" id="7_pky24"]
 [ext_resource type="AudioStream" uid="uid://bp3b2i603qdv3" path="res://assets/editor/hit_note_01.wav" id="9_mvjn5"]
 [ext_resource type="AudioStream" uid="uid://boxotbbbr6bgy" path="res://assets/editor/hold_note_01.wav" id="10_18uvy"]
 [ext_resource type="Script" uid="uid://d2i6u8ixu12r2" path="res://core/GameManager.cs" id="10_mvjn5"]
 [ext_resource type="Script" uid="uid://dbbkpkhl7jysd" path="res://core/Conductor.cs" id="11_18uvy"]
-[ext_resource type="Resource" uid="uid://b4dh0cpqem4u3" path="res://assets/charts/KLIPNITY/kyphian_alyraeus_medium.tres" id="12_ppdpw"]
+[ext_resource type="PackedScene" uid="uid://jtrs7tx8h8na" path="res://ui/score.tscn" id="11_78aa7"]
 [ext_resource type="Script" uid="uid://cn66yvsvfpaxu" path="res://core/InputManager.cs" id="13_78aa7"]
 [ext_resource type="Script" uid="uid://cvtcbn8yijcak" path="res://core/JudgementManager.cs" id="14_g6p6a"]
 [ext_resource type="PackedScene" uid="uid://b64qfdctfmjg3" path="res://spawner/spawner3d.tscn" id="15_ppdpw"]
 [ext_resource type="Script" uid="uid://dh0e0xamdv8xm" path="res://autoloads/debug/Debug.gd" id="17_f541d"]
 [ext_resource type="Texture2D" uid="uid://ckmfrqen37xbt" path="res://assets/backgrounds/auxie_bg.png" id="17_mvjn5"]
 [ext_resource type="PackedScene" uid="uid://cginamruiifir" path="res://assets/models/speaker/speaker.tscn" id="18_mvjn5"]
+[ext_resource type="PackedScene" uid="uid://6ktn83westp0" path="res://assets/models/UI/ui_elemet_02.tscn" id="21_78aa7"]
 
 [sub_resource type="Environment" id="Environment_wjff2"]
 background_mode = 1
@@ -32,17 +35,18 @@ fog_sky_affect = 0.0
 
 [node name="Conductor" type="Node" parent="Gameplay" node_paths=PackedStringArray("Player")]
 script = ExtResource("11_18uvy")
-Chart = ExtResource("12_ppdpw")
+Chart = ExtResource("2_78aa7")
 Player = NodePath("../AudioStreamPlayer")
 Bpm = 130.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Gameplay"]
 
-[node name="GameManager" type="Node" parent="Gameplay" node_paths=PackedStringArray("Conductor", "InputManager", "JudgementManager", "Spawner")]
+[node name="GameManager" type="Node" parent="Gameplay" node_paths=PackedStringArray("Conductor", "InputManager", "JudgementManager", "ScoreManager", "Spawner")]
 script = ExtResource("10_mvjn5")
 Conductor = NodePath("../Conductor")
 InputManager = NodePath("../InputManager")
 JudgementManager = NodePath("../JudgementManager")
+ScoreManager = NodePath("../ScoreManager")
 Spawner = NodePath("../Spawner")
 
 [node name="InputManager" type="Node" parent="Gameplay"]
@@ -52,6 +56,9 @@ script = ExtResource("13_78aa7")
 script = ExtResource("14_g6p6a")
 Conductor = NodePath("../Conductor")
 InputManager = NodePath("../InputManager")
+
+[node name="ScoreManager" type="Node" parent="Gameplay"]
+script = ExtResource("6_18uvy")
 
 [node name="Spawner" parent="Gameplay" node_paths=PackedStringArray("JudgementManager") instance=ExtResource("15_ppdpw")]
 ScrollSpeed = 10.0
@@ -95,6 +102,10 @@ max_polyphony = 8
 unique_name_in_owner = true
 stream = ExtResource("10_18uvy")
 max_polyphony = 6
+
+[node name="Score" parent="Gameplay" node_paths=PackedStringArray("ScoreManager") instance=ExtResource("11_78aa7")]
+transform = Transform3D(1, 0, 0, 0, 0.25881907, -0.9659258, 0, 0.9659258, 0.25881907, 1.9249315, 2.8111498, -0.5538142)
+ScoreManager = NodePath("../ScoreManager")
 
 [node name="Camera & Lights" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4336958, 5.1822586)
@@ -146,3 +157,6 @@ texture = ExtResource("17_mvjn5")
 
 [node name="speaker_base" parent="." instance=ExtResource("18_mvjn5")]
 transform = Transform3D(0.067849174, 0.010427094, -0.072717, 0.006057649, 0.097856246, 0.019684013, 0.073210604, -0.017760392, 0.06576302, 3, -2.5, -1)
+
+[node name="ui_elemet_02" parent="." instance=ExtResource("21_78aa7")]
+transform = Transform3D(1, 0, 0, 0, 0.49999997, -0.8660254, 0, 0.8660254, 0.49999997, -1.7375175, 3.1069045, -0.3389368)

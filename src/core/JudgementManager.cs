@@ -19,13 +19,15 @@ public partial class JudgementManager : Node {
     [Signal]
     public delegate void NoteReleasedEventHandler(NoteType type, long bar, long beat, double sixteenth);
 
+    [Signal]
+    public delegate void HoldJudgedEventHandler(NoteType type, long bar, long beat, double sixteenth, Judgement judgement);
+
     [Export] public required Conductor Conductor;
     [Export] public required InputManager InputManager;
-    private readonly Queue<RhythmInput> _inputs = new();
 
     private readonly List<Note> _notes = [];
     private readonly List<Note.Hold> _heldNotes = [];
-    private readonly Dictionary<Note.Hold, Key> _heldNotesPressedKey = new();
+    private readonly Dictionary<Note.Hold, HoldNoteState> _activeHolds = new();
 
     public override void _Ready() {
         base._Ready();
@@ -50,7 +52,7 @@ public partial class JudgementManager : Node {
         var note = !input.Pressed
             ? _heldNotes.Find(it => it.Type == input.NoteType)
             : _notes.Find(it => it.Type == input.NoteType);
-        switch(note) {
+        switch (note) {
             case null:
                 return;
             case Note.Hold holdNote:
@@ -66,26 +68,38 @@ public partial class JudgementManager : Node {
         if (JudgeTiming(input, note) is not { } judgement) return;
         _notes.Remove(note);
         EmitSignalNoteHit(note.Type, note.Bar, note.Beat, note.Sixteenth, judgement);
-
     }
 
     private void HandleHoldNote(RhythmInput input, Note.Hold note) {
         switch (input.Pressed) {
             case true:
-                if (JudgeTiming(input, note) is not { } judgement) return;
-                _heldNotes.Add(note);
-                _heldNotesPressedKey[note] = input.PhysicalKey;
-                _notes.Remove(note);
-                EmitSignalNoteHeld(note.Type, note.Bar, note.Beat, note.Sixteenth);
+                HandleHoldNotePress(input, note);
                 break;
             case false:
-                if (_heldNotesPressedKey.TryGetValue(note, out var pressedKey) && pressedKey == input.PhysicalKey) {
-                    _heldNotes.Remove(note);
-                    _heldNotesPressedKey.Remove(note);
-                    EmitSignalNoteReleased(note.Type, note.Bar, note.Beat, note.Sixteenth);
-                }
+                HandleHoldNoteRelease(input, note);
                 break;
         }
+    }
+
+    private void HandleHoldNotePress(RhythmInput input, Note.Hold note) {
+        if (JudgeTiming(input, note) is not { } initialJudgement) return;
+
+        _heldNotes.Add(note);
+        _activeHolds[note] = new HoldNoteState(input.PhysicalKey, Conductor.SongPosition);
+        _notes.Remove(note);
+
+        EmitSignalNoteHit(note.Type, note.Bar, note.Beat, note.Sixteenth, initialJudgement);
+        EmitSignalNoteHeld(note.Type, note.Bar, note.Beat, note.Sixteenth);
+    }
+
+    private void HandleHoldNoteRelease(RhythmInput input, Note.Hold note) {
+        if (!_activeHolds.TryGetValue(note, out var state)) return;
+        if (state.PressedKey != input.PhysicalKey) return;
+
+        JudgeHoldRelease(note, state.StartTime);
+        _heldNotes.Remove(note);
+        _activeHolds.Remove(note);
+        EmitSignalNoteReleased(note.Type, note.Bar, note.Beat, note.Sixteenth);
     }
 
     private Judgement? JudgeTiming(RhythmInput input, Note note) {
@@ -112,19 +126,59 @@ public partial class JudgementManager : Node {
         foreach (Note.Hold note in _heldNotes.ToList()) {
             var time = Conductor.SongPosition - note.EndTime(Conductor.SecondsPerBeat, Conductor.Chart.BeatsPerMeasure);
             if (time > 0) {
+                JudgeHoldComplete(note);
                 _heldNotes.Remove(note);
-                _heldNotesPressedKey.Remove(note);
+                _activeHolds.Remove(note);
                 EmitSignalNoteReleased(note.Type, note.Bar, note.Beat, note.Sixteenth);
             }
         }
     }
+
+    private void JudgeHoldRelease(Note.Hold note, double startTime) {
+        var percentage = CalculateHoldPercentage(note, startTime);
+        var judgement = DetermineHoldJudgement(percentage);
+
+        EmitSignalHoldJudged(note.Type, note.Bar, note.Beat, note.Sixteenth, judgement);
+    }
+
+    private double CalculateHoldPercentage(Note.Hold note, double startTime) {
+        var currentTime = Conductor.SongPosition;
+        var noteStartTime = note.Time(Conductor.SecondsPerBeat, Conductor.Chart.BeatsPerMeasure);
+        var noteEndTime = note.EndTime(Conductor.SecondsPerBeat, Conductor.Chart.BeatsPerMeasure);
+        var noteDuration = noteEndTime - noteStartTime;
+        var heldDuration = currentTime - startTime;
+
+        return heldDuration / noteDuration;
+    }
+
+    private static Judgement DetermineHoldJudgement(double percentage) {
+        return percentage switch {
+            >= HoldJudgementTiming.Perfect => Judgement.Perfect,
+            >= HoldJudgementTiming.Great => Judgement.Great,
+            >= HoldJudgementTiming.Okay => Judgement.Okay,
+            _ => Judgement.Miss
+        };
+    }
+
+    private void JudgeHoldComplete(Note.Hold note) {
+        EmitSignalHoldJudged(note.Type, note.Bar, note.Beat, note.Sixteenth, Judgement.Perfect);
+    }
+
+    private sealed record HoldNoteState(Key PressedKey, double StartTime);
+}
+
+public static class HoldJudgementTiming {
+    public const double Perfect = 0.95;
+    public const double Great = 0.85;
+    public const double Okay = 0.70;
+    // Below 70% = Miss
 }
 
 public static class Extensions {
     public static double Time(this Note note, float secondsPerBeat, long notesBerBar) {
         return (note.Bar * notesBerBar + note.Beat + note.Sixteenth / 4.0) * secondsPerBeat;
     }
-    
+
     public static double EndTime(this Note.Hold note, float secondsPerBeat, long notesBerBar) {
         return (note.EndNote.Bar * notesBerBar + note.EndNote.Beat + note.EndNote.Sixteenth / 4.0) * secondsPerBeat;
     }

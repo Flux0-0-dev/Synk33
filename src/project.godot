@@ -45,6 +45,12 @@ project/assembly_name="SYNK33"
 
 enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/outburst_importer/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://editor/": "red"
+}
+
 [gui]
 
 theme/custom="uid://dkolwxkedrxfi"
