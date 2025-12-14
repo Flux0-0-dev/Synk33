@@ -109,3 +109,12 @@ func _on_difficulty_select_tab_changed(tab: int) -> void:
 		change_chart(current_song.GetChartByDifficulty(tab as Difficulty))
 	else:
 		push_warning("Current song does not have a chart for this difficulty")
+
+
+func _on_play_pressed() -> void:
+	if not current_song.HasChart(current_difficulty):
+		push_warning("Current song does not have a chart for the selected difficulty, aborting")
+		return
+	TransitionManager.play_transition()
+	await TransitionManager.transition_midpoint
+	SceneManager.ChangeSceneToGame(current_song.GetChartByDifficulty(current_difficulty))

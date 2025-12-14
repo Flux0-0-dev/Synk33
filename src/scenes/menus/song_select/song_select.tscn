@@ -82,6 +82,39 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_xfngb")
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 64
+
+[node name="Control" type="Control" parent="HBoxContainer/SongSelect/MarginContainer"]
+layout_mode = 2
+
+[node name="Back" type="Button" parent="HBoxContainer/SongSelect/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+offset_right = 123.0
+offset_bottom = 60.0
+grow_vertical = 0
+focus_mode = 0
+shortcut = ExtResource("1_aprlc")
+text = "BACK"
+script = ExtResource("2_jefun")
+
+[node name="Play" type="Button" parent="HBoxContainer/SongSelect/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -123.0
+offset_top = 4.0
+offset_bottom = 60.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+text = "PLAY"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/SongSelect/MarginContainer"]
 layout_mode = 2
@@ -243,24 +276,7 @@ size_flags_horizontal = 7
 info = "85000"
 type = "HIGH SCORE"
 
-[node name="Back" type="Button" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -83.0
-offset_top = -44.0
-offset_right = -38.0
-offset_bottom = -13.0
-grow_horizontal = 0
-grow_vertical = 0
-shortcut = ExtResource("1_aprlc")
-text = "Back"
-script = ExtResource("2_jefun")
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
+[connection signal="pressed" from="HBoxContainer/SongSelect/MarginContainer/Control/Play" to="." method="_on_play_pressed"]
 [connection signal="tab_changed" from="HBoxContainer/SongSelect/MarginContainer/VBoxContainer/DifficultySelect" to="." method="_on_difficulty_select_tab_changed"]

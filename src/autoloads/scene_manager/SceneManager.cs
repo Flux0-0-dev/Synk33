@@ -1,6 +1,7 @@
 using Godot;
 using SYNK33.chart;
 using System;
+using SYNK33.core;
 
 namespace SYNK33.scenemanager;
 
@@ -12,10 +13,11 @@ public enum BasicScene {
 }
 
 public partial class SceneManager : Node {
-	private static PackedScene MainMenuPacked = ResourceLoader.Load<PackedScene>("uid://dnk0thv8iasnk");
-	private static PackedScene SettingsPacked = ResourceLoader.Load<PackedScene>("uid://bwpjtqjpf7sp0");
-	private static PackedScene SongSelectPacked = ResourceLoader.Load<PackedScene>("uid://c75ew37wbtpa2");
-	private static PackedScene CreditsPacked = ResourceLoader.Load<PackedScene>("uid://ovi7mj6ghtqq");
+	private static PackedScene MainMenuPacked = GD.Load<PackedScene>("uid://dnk0thv8iasnk");
+	private static PackedScene SettingsPacked = GD.Load<PackedScene>("uid://bwpjtqjpf7sp0");
+	private static PackedScene SongSelectPacked = GD.Load<PackedScene>("uid://c75ew37wbtpa2");
+	private static PackedScene CreditsPacked = GD.Load<PackedScene>("uid://ovi7mj6ghtqq");
+	private static PackedScene GameScene = GD.Load<PackedScene>("uid://dkluvwvfg2iyk");
 	private bool isCurrentSceneForeign = true;
 	
 	private Node MainMenu = null!;
@@ -59,7 +61,11 @@ public partial class SceneManager : Node {
 		isCurrentSceneForeign = true;
 	}
 	public void ChangeSceneToGame(Chart chart) {
-		// TODO: Implement this
+		Node gameInstance = GameScene.Instantiate();
+		Conductor conductor = gameInstance.GetNode<Conductor>("Gameplay/Conductor");
+		conductor.Chart = chart;
+		SceneSwap(gameInstance);
+		isCurrentSceneForeign = true;
 	}
 	public void ChangeSceneToResults() {
 		// TODO: Implement this
