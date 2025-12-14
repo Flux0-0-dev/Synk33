@@ -185,14 +185,14 @@ public static class Extensions {
 }
 
 public static class JudgementTiming {
-    // public const double Perfect = 0.0165;
-    // public const double Great = 0.033;
-    // public const double Okay = 0.066;
-    // public const double Miss = 0.099;
-    public const double Perfect = 0.05;
-    public const double Great = 0.08;
-    public const double Okay = 0.11;
-    public const double Miss = 0.130;
+    public const double Perfect = 0.0165;
+    public const double Great = 0.033;
+    public const double Okay = 0.066;
+    public const double Miss = 0.099;
+    // public const double Perfect = 0.05;
+    // public const double Great = 0.08;
+    // public const double Okay = 0.11;
+    // public const double Miss = 0.130;
 }
 
 public enum Judgement {

@@ -5,40 +5,59 @@ namespace SYNK33.chart;
 
 [GlobalClass]
 public partial class NoteObject3D : Node3D {
-	public float Speed = 1;
-	public required NoteTime StartTime;
-	[Export] public NoteType Type;
+    [Export] public NoteType Type;
+    [Export] public required Material Material { get; set; }
+    [Export] public required Material MaterialGlow { get; set; }
+    
+    public float Speed = 1;
+    public required NoteTime StartTime;
+    public Conductor? Conductor;
+    
+    private double _lastSongPosition = -1;
+    private MeshInstance3D? _noteMesh;
 
-	public override void _Ready() {
-		GetNode<Node3D>("note_purple").Visible = Type == NoteType.Left;
-		GetNode<Node3D>("note_blue").Visible = Type == NoteType.Middle;
-		GetNode<Node3D>("note_orange").Visible = Type == NoteType.Right;
-		GetNode<Node3D>("note_black").Visible = false;
-	}
+    public override void _Ready() {
+        _noteMesh = GetNodeOrNull<MeshInstance3D>("note");
+        AssignMaterials();
+    }
 
-	public override void _Process(double delta) {
-		base._Process(delta);
-		Position = Position with { Z = (float)(Position.Z + Speed * delta) };
-	}
+    protected virtual void AssignMaterials() {
+        _noteMesh?.SetSurfaceOverrideMaterial(0, Material);
+        _noteMesh?.SetSurfaceOverrideMaterial(1, MaterialGlow);
+    }
 
-	public void SetMissed(NoteType type, long bar, long beat, double sixteenth) {
-		if (!IsEventMatching(type, bar, beat, sixteenth)) return;
-		GetNode<Node3D>("note_blue").Visible = false;
-		GetNode<Node3D>("note_orange").Visible = false;
-		GetNode<Node3D>("note_purple").Visible = false;
-		GetNode<Node3D>("note_black").Visible = true;
-	}
+    public override void _Process(double delta) {
+        base._Process(delta);
+        var effectiveDelta = CalculateEffectiveDelta(delta);
+        Position = Position with { Z = (float)(Position.Z + Speed * effectiveDelta) };
+        if (Conductor != null) _lastSongPosition = Conductor.SongPosition;
+    }
 
-	public void SetHit(NoteType type, long bar, long beat, double sixteenth, Judgement judgement) {
-		if (!IsEventMatching(type, bar, beat, sixteenth)) return;
-		var label = GetNode<Label3D>("Score");
-		label.Text = judgement.ToString();
-	}
+    public virtual void SetMissed(NoteType type, long bar, long beat, double sixteenth) {
+        if (!IsEventMatching(type, bar, beat, sixteenth)) return;
+        _noteMesh?.SetSurfaceOverrideMaterial(0, null);
+        _noteMesh?.SetSurfaceOverrideMaterial(1, null);
+    }
 
-	protected bool IsEventMatching(NoteType type, long bar, long beat, double sixteenth) {
-		return IsEventMatching(type, new NoteTime(bar, beat, sixteenth));
-	}
-	protected bool IsEventMatching(NoteType type, NoteTime time) {
-		return Type == type && StartTime == time;
-	}
+    public void SetHit(NoteType type, long bar, long beat, double sixteenth, Judgement judgement) {
+        if (!IsEventMatching(type, bar, beat, sixteenth)) return;
+        var label = GetNode<Label3D>("Score");
+        label.Text = judgement.ToString();
+        if (_noteMesh != null) _noteMesh.Visible = false;
+        // TODO: Add hit effects
+    }
+
+    private double CalculateEffectiveDelta(double delta) {
+        if (Conductor == null) return delta;
+        if (_lastSongPosition < 0) return 0;
+        return Conductor.SongPosition - _lastSongPosition;
+    }
+
+    protected bool IsEventMatching(NoteType type, long bar, long beat, double sixteenth) {
+        return IsEventMatching(type, new NoteTime(bar, beat, sixteenth));
+    }
+
+    private bool IsEventMatching(NoteType type, NoteTime time) {
+        return Type == type && StartTime == time;
+    }
 }

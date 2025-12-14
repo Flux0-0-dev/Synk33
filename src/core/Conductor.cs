@@ -17,11 +17,18 @@ public partial class Conductor : Node {
 
     public override void _Ready() {
         base._Ready();
+        Player.Stop();
+        Player.Stream = null;
         Player.Stream = Chart.Song.Audio;
         Player.SetPitchScale(Chart.TempoModifier);
+        StartingTimestamp = Time.GetUnixTimeFromSystem();
         Player.Play();
         Bpm = Chart.Bpm;
-        StartingTimestamp = Time.GetUnixTimeFromSystem();
+    }
+
+    public override void _ExitTree() {
+        base._ExitTree();
+        Player.Stop();
     }
 
     public override void _Process(double delta) {

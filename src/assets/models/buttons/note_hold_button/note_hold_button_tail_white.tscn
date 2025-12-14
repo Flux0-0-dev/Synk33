@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=4 uid="uid://brfu2c387gaqy"]
 
-[ext_resource type="Material" uid="uid://doq3r4kfa7vlo" path="res://materials/emission/white_e.tres" id="1_x7t61"]
+[ext_resource type="Material" uid="uid://doq3r4kfa7vlo" path="res://assets/materials/emission/white_e.tres" id="1_x7t61"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x17l0"]
 
@@ -34,9 +34,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_y62a2")
 
-[node name="note_hold_button_tail" type="Node3D"]
-
-[node name="hold button_tail" type="MeshInstance3D" parent="."]
+[node name="hold button_tail" type="MeshInstance3D"]
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_sxks3")
 skeleton = NodePath("")

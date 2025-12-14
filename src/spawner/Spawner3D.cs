@@ -13,6 +13,13 @@ public partial class Spawner3D : Node3D {
 
 	[Export] public required NodePath Conductor { get; set; }
 	[Export] public required JudgementManager JudgementManager { get; set; }
+	[ExportGroup("Visuals")]
+	[Export] public required Material NoteMaterialPurple { get; set; }
+	[Export] public required Material NoteMaterialGlowPurple { get; set; }
+	[Export] public required Material NoteMaterialBlue { get; set; }
+	[Export] public required Material NoteMaterialGlowBlue { get; set; }
+	[Export] public required Material NoteMaterialOrange { get; set; }
+	[Export] public required Material NoteMaterialGlow { get; set; }
 	
 	private Chart _chart;
 
@@ -53,11 +60,25 @@ public partial class Spawner3D : Node3D {
 				holdNoteInstance.UnitsPerBeat = ScrollSpeed;
 				JudgementManager.NoteHeld += holdNoteInstance.StartHold;
 				JudgementManager.NoteReleased += holdNoteInstance.EndHold;
+				JudgementManager.HoldJudged += holdNoteInstance.NoteJudged;
 			}
 		}
 
 		noteInstance.Speed = -judgementY / _conductor.SecondsPerBeat * ScrollSpeed;
 		noteInstance.Type = note.Type;
+		noteInstance.Conductor = _conductor;
+		noteInstance.Material = note.Type switch {
+			NoteType.Left => NoteMaterialPurple,
+			NoteType.Middle => NoteMaterialBlue,
+			NoteType.Right => NoteMaterialOrange,
+			_ => throw new ArgumentOutOfRangeException()
+		};
+		noteInstance.MaterialGlow = note.Type switch {
+			NoteType.Left => NoteMaterialGlowPurple,
+			NoteType.Middle => NoteMaterialGlowBlue,
+			NoteType.Right => NoteMaterialGlow,
+			_ => throw new ArgumentOutOfRangeException()
+		};
 		var lanePosition = note.Type switch {
 			NoteType.Left => position.X - 1f,
 			NoteType.Middle => position.X,

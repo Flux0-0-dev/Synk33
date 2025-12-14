@@ -5,5 +5,5 @@ func _input(event):
 	if event.is_action_pressed("restart"):
 		get_tree().reload_current_scene()
 	if event is InputEventKey:
-		if event.key_label == KEY_R:
+		if event.key_label == KEY_R && event.pressed:
 			get_tree().reload_current_scene()

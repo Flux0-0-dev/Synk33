@@ -5,13 +5,15 @@ using SYNK33.chart;
 namespace SYNK33.core;
 
 public partial class InputManager : Node {
-    [Export] public double SongStartTime { get; set; } = 0;
-    private readonly Queue<RhythmInput> _inputs = new Queue<RhythmInput>();
+    [Signal]
+    public delegate void ButtonPressedEventHandler(NoteType type);
+    
+    [Signal]
+    public delegate void ButtonReleasedEventHandler(NoteType type);
+    
+    [Export] public double SongStartTime { get; set; }
+    private readonly Queue<RhythmInput> _inputs = new();
 
-    public override void _Ready() {
-        base._Ready();
-        SongStartTime = Time.GetUnixTimeFromSystem();
-    }
 
     public override void _Input(InputEvent @event) {
         if (@event is not InputEventKey keyEvent) return;
@@ -38,6 +40,8 @@ public partial class InputManager : Node {
         var timestamp = Time.GetUnixTimeFromSystem();
         var hit = new RhythmInput(type, pressed, timestamp - SongStartTime, physicalKey);
         _inputs.Enqueue(hit);
+
+        EmitSignal(pressed ? SignalName.ButtonPressed : SignalName.ButtonReleased, (int)type);
     }
 }
 

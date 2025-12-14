@@ -1,27 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dff2uw1n12ai4"]
+[gd_scene load_steps=3 format=3 uid="uid://dff2uw1n12ai4"]
 
 [ext_resource type="Script" uid="uid://bs3b08mka5bu5" path="res://chart/NoteObject3D.cs" id="1_4gj05"]
 [ext_resource type="PackedScene" uid="uid://d26fwfre324mr" path="res://assets/models/buttons/note_button/note_button_blue.tscn" id="2_4gj05"]
-[ext_resource type="PackedScene" uid="uid://c0woujy5p5rdh" path="res://assets/models/buttons/note_button/note_button_orange.tscn" id="3_q3kaa"]
-[ext_resource type="PackedScene" uid="uid://cmh013c6fv725" path="res://assets/models/buttons/note_button/note_button_purple.tscn" id="4_yu03x"]
-[ext_resource type="PackedScene" uid="uid://qmt2eoy0f00s" path="res://assets/models/buttons/note_button/note_button_black.tscn" id="5_yu03x"]
 
 [node name="Note" type="Node3D"]
 script = ExtResource("1_4gj05")
 
-[node name="note_blue" parent="." instance=ExtResource("2_4gj05")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.9961947, -0.08715574, 0, 0.08715574, 0.9961947, 0, 0, 0)
-
-[node name="note_orange" parent="." instance=ExtResource("3_q3kaa")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.9961947, -0.08715574, 0, 0.08715574, 0.9961947, 0, 0, 0)
-
-[node name="note_purple" parent="." instance=ExtResource("4_yu03x")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.9961947, -0.08715574, 0, 0.08715574, 0.9961947, 0, 0, 0)
-
-[node name="note_black" parent="." instance=ExtResource("5_yu03x")]
+[node name="note" parent="." instance=ExtResource("2_4gj05")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.9961947, -0.08715574, 0, 0.08715574, 0.9961947, 0, 0, 0)
 
