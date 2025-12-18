@@ -85,7 +85,8 @@ public partial class Spawner3D : Node3D {
 			NoteType.Right => position.X + 1f,
 			_ => throw new ArgumentOutOfRangeException()
 		};
-		noteInstance.Position = new Vector3(lanePosition, 0, (judgementY - position.Y));
+		// +2 is a magic number hack for JudgementLine position in the world
+		noteInstance.Position = new Vector3(lanePosition, 0, (2 + judgementY - position.Y));
 		noteInstance.StartTime = note.StartTime;
 		JudgementManager.NoteMissed += noteInstance.SetMissed;
 		JudgementManager.NoteHit += noteInstance.SetHit;

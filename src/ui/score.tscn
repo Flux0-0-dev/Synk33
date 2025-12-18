@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=4 uid="uid://jtrs7tx8h8na"]
+[gd_scene load_steps=20 format=4 uid="uid://jtrs7tx8h8na"]
 
 [ext_resource type="Material" uid="uid://ct1kxrnm13cyy" path="res://assets/materials/simple/black.tres" id="1_o7qe2"]
 [ext_resource type="Script" uid="uid://bnx0viycxcuq8" path="res://ui/ScoreDisplay.cs" id="1_qvvd6"]
 [ext_resource type="Material" uid="uid://ewfcp1d0o4o2" path="res://assets/materials/simple/white.tres" id="2_qvvd6"]
-[ext_resource type="FontFile" uid="uid://ctb1ofvsavy2q" path="res://fonts/vendsans/vendsans_boldItalic.ttf" id="3_48r8h"]
+[ext_resource type="FontFile" uid="uid://lv40wpdio27u" path="res://fonts/courier_prime/CourierPrime-Regular.ttf" id="4_48r8h"]
 [ext_resource type="FontFile" uid="uid://dql8wmgpy2u70" path="res://fonts/vendsans/vendsans_bold.ttf" id="4_wpabi"]
+[ext_resource type="FontFile" uid="uid://p6rcurwoq8jg" path="res://fonts/courier_prime/CourierPrime-Bold.ttf" id="6_wpabi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdr5v"]
 
@@ -208,11 +209,12 @@ surface_material_override/2 = ExtResource("2_qvvd6")
 
 [node name="combo_number" type="Label3D" parent="top_cont"]
 unique_name_in_owner = true
-transform = Transform3D(0.9999996, 0.00029842556, 1.3047341e-11, 0, -3.6186807e-06, 82.78576, 0.00029842556, -0.9999995, -4.3711374e-08, -1.1327565, 1.5674112, 0.0017937869)
+transform = Transform3D(0.9999996, 0.00029842556, 1.3047341e-11, 0, -3.6186807e-06, 82.78576, 0.00029842556, -0.9999995, -4.3711374e-08, -0.7343332, 1.5674113, 0.026371162)
 modulate = Color(0.53333336, 0.22352941, 0.9490196, 1)
 text = "128"
-font = ExtResource("3_48r8h")
+font = ExtResource("4_48r8h")
 font_size = 100
+horizontal_alignment = 2
 
 [node name="combo_title" type="Label3D" parent="top_cont"]
 transform = Transform3D(0.9999997, 0.00029842556, 1.3045565e-11, 0, -3.6186811e-06, 82.785774, 0.00029842556, -0.99999964, -4.3711374e-08, -0.47814584, 1.5674114, -0.0029669255)
@@ -230,12 +232,13 @@ surface_material_override/1 = ExtResource("1_o7qe2")
 surface_material_override/2 = ExtResource("2_qvvd6")
 
 [node name="multi_number" type="Label3D" parent="bottom_cont"]
-transform = Transform3D(0.9961723, 0.08740945, 1.5481659e-07, -1.2600435e-05, -3.0249796e-06, 82.78579, -0.08740948, 0.99617225, 2.3095806e-08, -1.2492616, 1.6991388, 0.07669377)
+transform = Transform3D(0.9961723, 0.08740947, 1.5481659e-07, -1.260044e-05, -3.024979e-06, 82.78579, -0.0874095, 0.99617225, 2.3095813e-08, -1.0295731, 1.699136, 0.0023453962)
 modulate = Color(0.9098039, 0.1254902, 0.6313726, 1)
 text = "4
 "
-font = ExtResource("3_48r8h")
+font = ExtResource("6_wpabi")
 font_size = 135
+horizontal_alignment = 2
 
 [node name="multi_title" type="Label3D" parent="bottom_cont"]
 transform = Transform3D(0.9994482, -0.033232093, -6.2814715e-06, -1.2437159e-05, -1.5113807e-06, 82.78582, 0.033232003, 0.99944794, -6.082432e-05, -0.6496028, 1.6991316, 0.047087938)
@@ -255,11 +258,12 @@ surface_material_override/2 = ExtResource("2_qvvd6")
 
 [node name="xp_number" type="Label3D" parent="bottom_cont2"]
 unique_name_in_owner = true
-transform = Transform3D(1.4492675, 0.004795581, 2.2085733e-07, -1.6784741e-05, -2.6403195e-06, 111.111145, -0.0047957003, 1.4492674, 3.4635804e-08, -1.0808846, 2.280506, 0.048159003)
+transform = Transform3D(1.4492675, 0.004795581, 2.2085733e-07, -1.6784741e-05, -2.6403195e-06, 111.111145, -0.0047957003, 1.4492674, 3.4635804e-08, -0.59673154, 2.2805002, 0.008072955)
 modulate = Color(0.98039216, 0.34901962, 0.18039216, 1)
 text = "2500"
-font = ExtResource("3_48r8h")
+font = ExtResource("4_48r8h")
 font_size = 45
+horizontal_alignment = 2
 
 [node name="xp_title" type="Label3D" parent="bottom_cont2"]
 transform = Transform3D(1.4492675, 0.004795581, 2.2085733e-07, -1.6784741e-05, -2.6403195e-06, 111.111145, -0.0047957003, 1.4492674, 3.4635804e-08, -0.45596808, 2.2804995, 0.036542773)

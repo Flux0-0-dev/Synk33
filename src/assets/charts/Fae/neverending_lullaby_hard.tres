@@ -1,9 +1,8 @@
-[gd_resource type="Resource" script_class="Chart" load_steps=305 format=3 uid="uid://d11d4i7ygqjx6"]
+[gd_resource type="Resource" script_class="Chart" load_steps=304 format=3 uid="uid://d11d4i7ygqjx6"]
 
 [ext_resource type="Script" uid="uid://ca6ckpkxkwypv" path="res://chart/Chart.cs" id="1_jl5ic"]
 [ext_resource type="Resource" uid="uid://d06i7vw3jwqca" path="res://assets/charts/Fae/neverending_lullaby.tres" id="1_mgte8"]
 [ext_resource type="Script" uid="uid://bmvioldybpoam" path="res://chart/GodotNote.cs" id="1_ourpc"]
-[ext_resource type="Script" path="res://chart/TimeSignature.cs" id="3_g028x"]
 
 [sub_resource type="Resource" id="Resource_g028x"]
 script = ExtResource("1_ourpc")

@@ -13,17 +13,18 @@ public partial class NoteObject3D : Node3D {
     public required NoteTime StartTime;
     public Conductor? Conductor;
     
+    protected MeshInstance3D? NoteMesh;
+    
     private double _lastSongPosition = -1;
-    private MeshInstance3D? _noteMesh;
 
     public override void _Ready() {
-        _noteMesh = GetNodeOrNull<MeshInstance3D>("note");
+        NoteMesh = GetNodeOrNull<MeshInstance3D>("NoteMesh");
         AssignMaterials();
     }
 
     protected virtual void AssignMaterials() {
-        _noteMesh?.SetSurfaceOverrideMaterial(0, Material);
-        _noteMesh?.SetSurfaceOverrideMaterial(1, MaterialGlow);
+        NoteMesh?.SetSurfaceOverrideMaterial(0, Material);
+        NoteMesh?.SetSurfaceOverrideMaterial(1, MaterialGlow);
     }
 
     public override void _Process(double delta) {
@@ -35,15 +36,11 @@ public partial class NoteObject3D : Node3D {
 
     public virtual void SetMissed(NoteType type, long bar, long beat, double sixteenth) {
         if (!IsEventMatching(type, bar, beat, sixteenth)) return;
-        _noteMesh?.SetSurfaceOverrideMaterial(0, null);
-        _noteMesh?.SetSurfaceOverrideMaterial(1, null);
     }
 
-    public void SetHit(NoteType type, long bar, long beat, double sixteenth, Judgement judgement) {
+    public void SetHit(NoteType type, long bar, long beat, double sixteenth, Judgement judgement, TimingOffset offset) {
         if (!IsEventMatching(type, bar, beat, sixteenth)) return;
-        var label = GetNode<Label3D>("Score");
-        label.Text = judgement.ToString();
-        if (_noteMesh != null) _noteMesh.Visible = false;
+        if (NoteMesh != null) NoteMesh.Visible = false;
         // TODO: Add hit effects
     }
 

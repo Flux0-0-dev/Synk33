@@ -1,11 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://dkluvwvfg2iyk"]
+[gd_scene load_steps=31 format=3 uid="uid://dkluvwvfg2iyk"]
 
 [ext_resource type="PackedScene" uid="uid://cbpbta52owj4a" path="res://assets/models/rails/rail_02_better_size.tscn" id="1_gagx4"]
-[ext_resource type="Resource" uid="uid://bybb85qhlhlbn" path="res://assets/charts/KLIPNITY/kyphian_alyraeus_tough.tres" id="2_arua4"]
+[ext_resource type="Resource" uid="uid://d11d4i7ygqjx6" path="res://assets/charts/Fae/neverending_lullaby_hard.tres" id="2_btjhw"]
 [ext_resource type="PackedScene" uid="uid://diqccqrvjnp2d" path="res://assets/models/rails/rail_02_better_size_blue.tscn" id="2_nbd8l"]
 [ext_resource type="PackedScene" uid="uid://b6b5i7y5wwrq1" path="res://assets/models/rails/rail_02_better_size_orange.tscn" id="3_hwkc4"]
 [ext_resource type="Script" uid="uid://l5osvw7nm7tr" path="res://core/ScoreManager.cs" id="6_18uvy"]
-[ext_resource type="AudioStream" uid="uid://bp3b2i603qdv3" path="res://assets/editor/hit_note_01.wav" id="9_mvjn5"]
 [ext_resource type="AudioStream" uid="uid://boxotbbbr6bgy" path="res://assets/editor/hold_note_01.wav" id="10_18uvy"]
 [ext_resource type="Script" uid="uid://d2i6u8ixu12r2" path="res://core/GameManager.cs" id="10_mvjn5"]
 [ext_resource type="Script" uid="uid://dbbkpkhl7jysd" path="res://core/Conductor.cs" id="11_18uvy"]
@@ -17,13 +16,19 @@
 [ext_resource type="Material" uid="uid://comjj4tt18835" path="res://assets/materials/emission/purple_e.tres" id="14_3a7vx"]
 [ext_resource type="Script" uid="uid://cvtcbn8yijcak" path="res://core/JudgementManager.cs" id="14_g6p6a"]
 [ext_resource type="Material" uid="uid://cs6bk5a1qpt7a" path="res://assets/materials/emission/blue_e.tres" id="14_neaty"]
+[ext_resource type="AudioStream" uid="uid://djol5lpbm147w" path="res://assets/audio/sfx/notes/note_perfect.wav" id="15_3a7vx"]
 [ext_resource type="PackedScene" uid="uid://b64qfdctfmjg3" path="res://spawner/spawner3d.tscn" id="15_ppdpw"]
-[ext_resource type="Script" uid="uid://dh0e0xamdv8xm" path="res://autoloads/debug/Debug.gd" id="17_f541d"]
+[ext_resource type="AudioStream" uid="uid://defp5ceqdlf83" path="res://assets/audio/sfx/notes/note_ok.wav" id="16_8jl8h"]
+[ext_resource type="AudioStream" uid="uid://dgi8a1hxwas87" path="res://assets/audio/sfx/notes/note_great.wav" id="16_btjhw"]
+[ext_resource type="AudioStream" uid="uid://dhqw03t10ewam" path="res://assets/audio/sfx/notes/break_combo.wav" id="16_neaty"]
+[ext_resource type="AudioStream" uid="uid://cfirf37hv0lrv" path="res://assets/audio/sfx/notes/input_miss.wav" id="17_3a7vx"]
 [ext_resource type="Texture2D" uid="uid://ckmfrqen37xbt" path="res://assets/backgrounds/auxie_bg.png" id="17_mvjn5"]
 [ext_resource type="Material" uid="uid://c3arkj22cceg4" path="res://assets/materials/simple/orange.tres" id="17_vls4n"]
 [ext_resource type="Material" uid="uid://dnmfjt8tc7ulh" path="res://assets/materials/emission/orange_e.tres" id="18_8jl8h"]
+[ext_resource type="AudioStream" uid="uid://bqisulr2jha7t" path="res://assets/audio/sfx/notes/hit_note_01.wav" id="18_52274"]
 [ext_resource type="PackedScene" uid="uid://cginamruiifir" path="res://assets/models/speaker/speaker.tscn" id="18_mvjn5"]
 [ext_resource type="PackedScene" uid="uid://6ktn83westp0" path="res://assets/models/UI/ui_elemet_02.tscn" id="21_78aa7"]
+[ext_resource type="PackedScene" uid="uid://ckmhq0mtn2p1e" path="res://ui/judgement_indicator_manager.tscn" id="26_neaty"]
 
 [sub_resource type="Environment" id="Environment_wjff2"]
 background_mode = 1
@@ -38,19 +43,20 @@ fog_sky_affect = 0.0
 
 [node name="Conductor" type="Node" parent="Gameplay" node_paths=PackedStringArray("Player")]
 script = ExtResource("11_18uvy")
-Chart = ExtResource("2_arua4")
+Chart = ExtResource("2_btjhw")
 Player = NodePath("../AudioStreamPlayer")
 Bpm = 130.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Gameplay"]
 
-[node name="GameManager" type="Node" parent="Gameplay" node_paths=PackedStringArray("Conductor", "InputManager", "JudgementManager", "ScoreManager", "Spawner")]
+[node name="GameManager" type="Node" parent="Gameplay" node_paths=PackedStringArray("Conductor", "InputManager", "JudgementManager", "ScoreManager", "Spawner", "JudgementIndicatorManager")]
 script = ExtResource("10_mvjn5")
 Conductor = NodePath("../Conductor")
 InputManager = NodePath("../InputManager")
 JudgementManager = NodePath("../JudgementManager")
 ScoreManager = NodePath("../ScoreManager")
 Spawner = NodePath("../Spawner")
+JudgementIndicatorManager = NodePath("../../JudgementIndicatorManager")
 
 [node name="InputManager" type="Node" parent="Gameplay"]
 script = ExtResource("13_78aa7")
@@ -65,7 +71,6 @@ script = ExtResource("6_18uvy")
 
 [node name="Spawner" parent="Gameplay" node_paths=PackedStringArray("JudgementManager") instance=ExtResource("15_ppdpw")]
 ScrollSpeed = 8.0
-AudioOffset = -0.3
 JudgementLine = NodePath("../JudgementDebug")
 Conductor = NodePath("../Conductor")
 JudgementManager = NodePath("../JudgementManager")
@@ -80,32 +85,24 @@ NoteMaterialGlow = ExtResource("18_8jl8h")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 gizmo_extents = 250.0
 
-[node name="Debug" type="Control" parent="Gameplay"]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("17_f541d")
-
-[node name="Time" type="Label" parent="Gameplay/Debug"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="HoldPlayers" type="Label" parent="Gameplay/Debug"]
-layout_mode = 0
-offset_left = 200.0
-offset_right = 400.0
-offset_bottom = 100.0
-
-[node name="note_spawn" type="Marker3D" parent="Gameplay"]
+[node name="HitNotePerfectSfx" type="AudioStreamPlayer" parent="Gameplay"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
+stream = ExtResource("15_3a7vx")
+max_polyphony = 8
+
+[node name="HitNoteGreatSfx" type="AudioStreamPlayer" parent="Gameplay"]
+unique_name_in_owner = true
+stream = ExtResource("16_btjhw")
+max_polyphony = 8
+
+[node name="HitNoteOkaySfx" type="AudioStreamPlayer" parent="Gameplay"]
+unique_name_in_owner = true
+stream = ExtResource("16_8jl8h")
+max_polyphony = 8
 
 [node name="HitNoteSfx" type="AudioStreamPlayer" parent="Gameplay"]
 unique_name_in_owner = true
-stream = ExtResource("9_mvjn5")
+stream = ExtResource("18_52274")
 max_polyphony = 8
 
 [node name="HoldNoteSfx" type="AudioStreamPlayer" parent="Gameplay"]
@@ -113,59 +110,69 @@ unique_name_in_owner = true
 stream = ExtResource("10_18uvy")
 max_polyphony = 6
 
+[node name="ComboBreakSfx" type="AudioStreamPlayer" parent="Gameplay"]
+unique_name_in_owner = true
+stream = ExtResource("16_neaty")
+max_polyphony = 6
+
+[node name="MissSfx" type="AudioStreamPlayer" parent="Gameplay"]
+unique_name_in_owner = true
+stream = ExtResource("17_3a7vx")
+max_polyphony = 6
+
 [node name="Score" parent="Gameplay" node_paths=PackedStringArray("ScoreManager") instance=ExtResource("11_78aa7")]
 transform = Transform3D(1, 0, 0, 0, 0.25881907, -0.9659258, 0, 0.9659258, 0.25881907, 1.925, 2.811, 0.5)
 ScoreManager = NodePath("../ScoreManager")
 
-[node name="Camera & Lights" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4336958, 5.1822586)
-
-[node name="Camera3D" type="Camera3D" parent="Camera & Lights"]
-transform = Transform3D(1, 0, 0, 0, 0.9205048, 0.3907311, 0, -0.3907311, 0.9205048, 0, 2, 0)
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.92050487, 0.39073116, 0, -0.39073113, 0.92050487, 0, 3.4336958, 5.1822586)
 keep_aspect = 0
 fov = 70.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Camera & Lights"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_wjff2")
 
-[node name="rails" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+[node name="Frets" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9961947, -0.08715574, 0, 0.08715574, 0.9961947, 0, 0, 0)
 
-[node name="rail_02_better_size_purple" parent="rails" instance=ExtResource("1_gagx4")]
-transform = Transform3D(0.45, 0, 0, 0, 0.45000002, 0, 0, 0, 0.9030582, -1, 0, -15)
-
-[node name="rail_02_better_size_blue" parent="rails" instance=ExtResource("2_nbd8l")]
-transform = Transform3D(0.45, 0, 0, 0, 0.45000002, 0, 0, 0, 0.9030582, 0, 0, -15)
-
-[node name="rail_02_better_size_orange" parent="rails" instance=ExtResource("3_hwkc4")]
-transform = Transform3D(0.45, 0, 0, 0, 0.45000002, 0, 0, 0, 0.9030582, 1, 0, -15)
-
-[node name="fret_buttons" type="Node3D" parent="rails"]
-transform = Transform3D(1, 0, 0, 0, 0.9961947, -0.08715574, 0, 0.08715574, 0.9961947, 0, 1, 0)
-
-[node name="fret_button_purple" parent="rails/fret_buttons" instance=ExtResource("12_arua4")]
+[node name="FretPurple" parent="Frets" instance=ExtResource("12_arua4")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -1, 0, 0)
 Material = ExtResource("13_neaty")
 MaterialGlow = ExtResource("14_3a7vx")
 
-[node name="fret_button_blue" parent="rails/fret_buttons" instance=ExtResource("12_arua4")]
+[node name="FretBlue" parent="Frets" instance=ExtResource("12_arua4")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
 ButtonType = 1
 Material = ExtResource("13_f541d")
 MaterialGlow = ExtResource("14_neaty")
 
-[node name="fret_button_orange" parent="rails/fret_buttons" instance=ExtResource("12_arua4")]
+[node name="FretOrange" parent="Frets" instance=ExtResource("12_arua4")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 1, 0, 0)
 ButtonType = 2
 Material = ExtResource("17_vls4n")
 MaterialGlow = ExtResource("18_8jl8h")
 
-[node name="background_test" type="Sprite3D" parent="."]
+[node name="Rails" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="RailPurple" parent="Rails" instance=ExtResource("1_gagx4")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45000002, 0, 0, 0, 0.9030582, -1, 0, -15)
+
+[node name="RailBlue" parent="Rails" instance=ExtResource("2_nbd8l")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45000002, 0, 0, 0, 0.9030582, 0, 0, -15)
+
+[node name="RailOrange" parent="Rails" instance=ExtResource("3_hwkc4")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45000002, 0, 0, 0, 0.9030582, 1, 0, -15)
+
+[node name="Background" type="Sprite3D" parent="."]
 transform = Transform3D(15.115571, 0, 0, 0, 14.289564, 2.785952, 0, -3.8288772, 10.397315, 0, -64.747856, -157.49887)
 texture = ExtResource("17_mvjn5")
 
-[node name="speaker_base" parent="." instance=ExtResource("18_mvjn5")]
+[node name="Speaker" parent="." instance=ExtResource("18_mvjn5")]
 transform = Transform3D(0.067849174, 0.010427094, -0.072717, 0.006057649, 0.097856246, 0.019684013, 0.073210604, -0.017760392, 0.06576302, 3, -2.5, 0)
 
-[node name="ui_elemet_02" parent="." instance=ExtResource("21_78aa7")]
+[node name="HealthUI" parent="." instance=ExtResource("21_78aa7")]
 transform = Transform3D(1, 0, 0, 0, 0.49999997, -0.8660254, 0, 0.8660254, 0.49999997, -1.738, 3.107, 1)
+
+[node name="JudgementIndicatorManager" parent="." instance=ExtResource("26_neaty")]
+MaxActiveIndicators = 20

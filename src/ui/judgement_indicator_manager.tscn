@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckmhq0mtn2p1e"]
+
+[ext_resource type="PackedScene" uid="uid://cbevgbulak84o" path="res://ui/judgement_indicator.tscn" id="1_jl8ik"]
+[ext_resource type="Script" uid="uid://c6nlafpvdujft" path="res://ui/JudgementIndicatorManager.cs" id="2_jl8ik"]
+
+[node name="JudgementIndicatorManager" type="Control"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -500.0
+offset_right = 20.0
+offset_bottom = -460.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("2_jl8ik")
+IndicatorScene = ExtResource("1_jl8ik")
+SpawnPosition = Vector2(-50, 0)

@@ -11,6 +11,8 @@ public partial class ScoreManager : Node {
 
     [Signal]
     public delegate void ScoreChangedEventHandler(int score);
+    [Signal]
+    public delegate void ComboBrokenEventHandler(int combo);
 
     private readonly Dictionary<Judgement, int> _judgementCounts = new() {
         { Perfect, 0 },
@@ -102,8 +104,9 @@ public partial class ScoreManager : Node {
     }
 
     private void ResetCombo() {
+        EmitSignalComboBroken(CurrentCombo);
         CurrentCombo = 0;
-        EmitSignalComboChanged(CurrentCombo);
+        EmitSignalComboChanged(CurrentCombo); 
     }
 
     private void AddScore(int points) {

@@ -4,10 +4,15 @@
 [ext_resource type="Script" uid="uid://6m71agpnupgk" path="res://chart/HoldNoteObject3D.cs" id="2_oihet"]
 [ext_resource type="PackedScene" uid="uid://brfu2c387gaqy" path="res://assets/models/buttons/note_hold_button/note_hold_button_tail_white.tscn" id="3_ts7o1"]
 
-[node name="Note2" instance=ExtResource("1_0cwh0")]
+[node name="HoldNote" instance=ExtResource("1_0cwh0")]
 script = ExtResource("2_oihet")
 
-[node name="Trail" parent="." index="2" instance=ExtResource("3_ts7o1")]
+[node name="note" parent="." index="0"]
+surface_material_override/0 = null
+surface_material_override/1 = null
+surface_material_override/2 = null
+
+[node name="Trail" parent="." index="1" instance=ExtResource("3_ts7o1")]
 unique_name_in_owner = true
 transform = Transform3D(-8.742278e-08, 0, 0.4, 0, 0.5, 0, -2, 0, -1.7484556e-08, 0, -0.15, 0)
 surface_material_override/0 = null
