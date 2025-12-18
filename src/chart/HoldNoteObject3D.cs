@@ -13,9 +13,8 @@ public partial class HoldNoteObject3D : NoteObject3D {
     private MeshInstance3D? _trailNode;
     private StandardMaterial3D? _trailMaterial;
     private bool _held;
-    private float _initialTrailScale;
-    private float _totalHoldDuration;
-    private float _holdStartPositionZ;
+    private float _holdLength;
+    private float _trailScaleAtHoldLength = 1f;
     private float _currentEmission = 12f;
     private float _targetEmission = 12f;
     private float _lerpSpeed = 25f;
@@ -28,13 +27,14 @@ public partial class HoldNoteObject3D : NoteObject3D {
         var beatCount = (beats.Bar * BeatsPerMeasure + beats.Beat + beats.Sixteenth / 4.0f);
 
         var worldLength = (float)(beatCount * UnitsPerBeat);
-        _totalHoldDuration = worldLength;
+        _holdLength = worldLength;
 
         if (_trailNode != null) {
             var originalScale = _trailNode.Scale;
-            var fullScaleX = worldLength / originalScale.X;
+            var modelScaleX = Mathf.Max(0.0001f, originalScale.X);
+            var fullScaleX = worldLength / modelScaleX;
             _trailNode.Scale = new Vector3(fullScaleX, originalScale.Y, originalScale.Z);
-            _initialTrailScale = fullScaleX;
+            _trailScaleAtHoldLength = fullScaleX;
             AssignMaterials();
         }
     }
@@ -86,19 +86,15 @@ public partial class HoldNoteObject3D : NoteObject3D {
 
     private void UpdateTrailScale() {
         if (_trailNode == null) return;
-
-        var remainingDistance = Mathf.Max(0f, Position.Z);
-        var progress = Mathf.Clamp(remainingDistance / _totalHoldDuration, 0f, 1f);
-
-        var currentScale = _initialTrailScale * (1 - progress);
-        var originalScale = _trailNode.Scale;
-        _trailNode.Scale = new Vector3(currentScale, originalScale.Y, originalScale.Z);
+        if (_holdLength <= 0f) return;
+        var remainingDistance = Mathf.Max(0f, _holdLength - Position.Z);
+        var newScale = _trailScaleAtHoldLength * (remainingDistance / _holdLength);
+        _trailNode.Scale = _trailNode.Scale with { X = Mathf.Max(0f, newScale) };
     }
 
     public void StartHold(NoteType type, long bar, long beat, double sixteenth) {
         if (IsEventMatching(type, bar, beat, sixteenth)) {
             _held = true;
-            _holdStartPositionZ = Position.Z;
             GetNode<Node3D>("%note").Visible = false;
             _currentEmission = 16f;
             _targetEmission = 16f;
