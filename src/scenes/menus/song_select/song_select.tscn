@@ -277,6 +277,7 @@ info = "85000"
 type = "HIGH SCORE"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
 
 [connection signal="pressed" from="HBoxContainer/SongSelect/MarginContainer/Control/Play" to="." method="_on_play_pressed"]
 [connection signal="tab_changed" from="HBoxContainer/SongSelect/MarginContainer/VBoxContainer/DifficultySelect" to="." method="_on_difficulty_select_tab_changed"]

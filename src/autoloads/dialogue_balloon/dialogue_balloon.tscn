@@ -131,5 +131,6 @@ size_flags_vertical = 3
 text = "Dialogue..."
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Voice"
 
 [connection signal="gui_input" from="Balloon" to="." method="_on_balloon_gui_input"]

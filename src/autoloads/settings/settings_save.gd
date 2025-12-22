@@ -28,6 +28,7 @@ static var input_regex:RegEx = RegEx.create_from_string(r"([^\/]+)(?:\/(.+))?")
 #region Gameplay
 @export_group("Gameplay")
 @export_range(0, 1.0, 0.001, "or_greater") var custom_offset:float = 0.0
+@export_range(0.1, 10.0, 0.01, "or_greater") var scroll_speed:float = 1.0
 #endregion Gameplay
 
 #region Input
@@ -53,6 +54,9 @@ static var input_regex:RegEx = RegEx.create_from_string(r"([^\/]+)(?:\/(.+))?")
 @export_group("Audio")
 ## Linear volumes of busses.
 @export var bus_volumes:Array[float] = [
+	1.0,
+	1.0,
+	1.0,
 	1.0
 ]
 #endregion Audio
@@ -101,6 +105,7 @@ func save_config(path:String) -> void:
 	var file:ConfigFile = ConfigFile.new()
 	
 	file.set_value(CATEGORY_GAMEPLAY, "custom_offset", custom_offset)
+	file.set_value(CATEGORY_GAMEPLAY, "scroll_speed", scroll_speed)
 	
 	_save_input_map(file)
 	
@@ -121,6 +126,11 @@ func set_bus_volume(bus_index:int, linear_volume:float) -> void:
 	bus_volumes[bus_index] = linear_volume
 
 
+func get_bus_volume(bus_index:int) -> float:
+	assert(len(bus_volumes) > bus_index, "bus index '0' does not already exist in bus volumes!")
+	return bus_volumes[bus_index]
+
+
 func apply_settings(root:Viewport) -> void:
 	_apply_input_map(root)
 	_apply_video_settings(root)
@@ -129,6 +139,7 @@ func apply_settings(root:Viewport) -> void:
 #region Loaders
 func _load_gameplay_settings(file:ConfigFile) -> void:
 	custom_offset = file.get_value(CATEGORY_GAMEPLAY, "custom_offset", custom_offset)
+	scroll_speed = file.get_value(CATEGORY_GAMEPLAY, "scroll_speed", custom_offset)
 
 
 func _load_input_map(file:ConfigFile) -> void:
