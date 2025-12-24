@@ -11,7 +11,12 @@ public partial class JudgementManager : Node {
     public delegate void NoteMissedEventHandler(NoteType type, long bar, long beat, double sixteenth);
 
     [Signal]
-    public delegate void NoteHitEventHandler(NoteType type, long bar, long beat, double sixteenth, Judgement judgement,
+    public delegate void NoteHitEventHandler(
+        NoteType type,
+        long bar,
+        long beat,
+        double sixteenth,
+        Judgement judgement,
         TimingOffset offset);
 
     [Signal]
@@ -21,8 +26,13 @@ public partial class JudgementManager : Node {
     public delegate void NoteReleasedEventHandler(NoteType type, long bar, long beat, double sixteenth);
 
     [Signal]
-    public delegate void HoldJudgedEventHandler(NoteType type, long bar, long beat, double sixteenth,
-        Judgement judgement, TimingOffset offset);
+    public delegate void HoldJudgedEventHandler(
+        NoteType type,
+        long bar,
+        long beat,
+        double sixteenth,
+        Judgement judgement,
+        TimingOffset offset);
 
     [Export] public required Conductor Conductor;
     [Export] public required InputManager InputManager;
@@ -138,6 +148,10 @@ public partial class JudgementManager : Node {
             if (!(time > JudgementTiming.Miss)) continue;
             _notes.Remove(note);
             EmitSignalNoteMissed(note.Type, note.StartTime.Bar, note.StartTime.Beat, note.Sixteenth);
+            // Dirty hack until we have better hold note handling
+            if (note is Note.Hold) {
+                EmitSignalNoteMissed(note.Type, note.StartTime.Bar, note.StartTime.Beat, note.Sixteenth);
+            }
         }
     }
 
@@ -207,10 +221,10 @@ public static class Extensions {
 }
 
 public static class JudgementTiming {
-    public const double Perfect = 0.0165;
-    public const double Great = 0.033;
-    public const double Okay = 0.066;
-    public const double Miss = 0.099;
+    public const double Perfect = 0.033;
+    public const double Great = 0.066;
+    public const double Okay = 0.099;
+    public const double Miss = 0.132;
     // public const double Perfect = 0.05;
     // public const double Great = 0.08;
     // public const double Okay = 0.11;

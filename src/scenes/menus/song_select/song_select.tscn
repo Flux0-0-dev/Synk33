@@ -22,7 +22,7 @@
 [ext_resource type="Resource" uid="uid://c5wxov6ngfqyg" path="res://assets/charts/KLIPNITY/the_distance.tres" id="10_h61ne"]
 [ext_resource type="Resource" uid="uid://c6av4x1ftefbs" path="res://assets/charts/KLIPNITY/reaperman.tres" id="11_6bawy"]
 [ext_resource type="Resource" uid="uid://bx16wega6rjd" path="res://assets/charts/KLIPNITY/pixel_machine.tres" id="12_iny62"]
-[ext_resource type="Shader" path="res://scenes/menus/song_select/song_button.gdshader" id="17_cy4u7"]
+[ext_resource type="Shader" uid="uid://dwfypbyhy6ooy" path="res://scenes/menus/song_select/song_button.gdshader" id="17_cy4u7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xfngb"]
 bg_color = Color(0.039215688, 0.050980393, 0.07058824, 1)
@@ -269,7 +269,6 @@ type = "TYPE"
 
 [node name="HighscoreSongInfo" parent="HBoxContainer/SongDisplayCard/VBoxContainer/SongInfo/VBoxContainer/SongCreditContainer" instance=ExtResource("4_ibs4a")]
 unique_name_in_owner = true
-visible = false
 use_parent_material = true
 layout_mode = 2
 size_flags_horizontal = 7

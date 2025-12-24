@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="Chart" load_steps=13 format=3 uid="uid://cnylwicbcsa1k"]
+[gd_resource type="Resource" script_class="Chart" load_steps=13 format=3]
 
-[ext_resource type="Script" uid="uid://bmvioldybpoam" path="res://chart/GodotNote.cs" id="1_kfae5"]
-[ext_resource type="Script" uid="uid://ca6ckpkxkwypv" path="res://chart/Chart.cs" id="2_77crk"]
-[ext_resource type="Resource" uid="uid://blarvatodptiw" path="res://assets/charts/debug_song/debug_song.tres" id="2_va0l2"]
+[ext_resource type="Script" path="res://chart/GodotNote.cs" id="1_kfae5"]
+[ext_resource type="Script" path="res://chart/Chart.cs" id="2_77crk"]
+[ext_resource type="Resource" path="res://assets/charts/debug_song/debug_song.tres" id="2_va0l2"]
 
 [sub_resource type="Resource" id="Resource_pm4jv"]
 script = ExtResource("1_kfae5")

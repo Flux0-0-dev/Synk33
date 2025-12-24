@@ -1,23 +1,36 @@
-using System;
+using System.Collections.Generic;
 using Godot;
-using Godot.Collections;
+using SYNK33.core;
 
+namespace SYNK33.autoloads.save_manager;
 
-namespace SYNK33.Saving;
-
-public struct ChartPerformance {
-    public uint Highscore;
+public partial class ChartPerformance : Resource {
+    public uint HighScore;
     public uint PerfectHits;
     public uint TotalHits;
     public uint GhostHits;
     public uint ChartTotalNotes;
     public uint ChartTotalGhostNotes;
     public uint MaxCombo;
+    public uint MaxScore;
 
-    public readonly double GetGradeRatio() {
-        return TotalHits / (double)ChartTotalNotes;
+    public double GetGradeRatio() {
+        return MaxScore > 0 ? HighScore / (double)MaxScore : 0.0;
     }
-    public readonly uint GetMisses() {
+
+    public Rank GetRank() {
+        var ratio = GetGradeRatio();
+        return ratio switch {
+            >= 0.99 => Rank.SPlus,
+            >= 0.95 => Rank.S,
+            >= 0.85 => Rank.A,
+            >= 0.75 => Rank.B,
+            >= 0.60 => Rank.C,
+            _ => Rank.D
+        };
+    }
+
+    public uint GetMisses() {
         return ChartTotalNotes - TotalHits;
     }
 }
@@ -28,7 +41,7 @@ interface ISaveInfo {
     public void SetChartPerformance(long chartHash, ChartPerformance chartPerformance);
 }
 
-public partial class SaveData : Resource, ISaveInfo{
+public partial class SaveData : Resource, ISaveInfo {
     [ExportGroup("StoryFlags")]
     /// <summary>
     /// Whether the player has completed the tutorial.
@@ -37,20 +50,17 @@ public partial class SaveData : Resource, ISaveInfo{
     /// <summary>
     /// Points performance of charts by their resource UID.
     /// </summary>
-    private System.Collections.Generic.Dictionary<long, ChartPerformance> ChartMap = [];
+    private readonly Dictionary<long, ChartPerformance> _chartMap = [];
 
     public bool HasChartPerformance(long chartHash) {
-        return ChartMap.ContainsKey(chartHash);
+        return _chartMap.ContainsKey(chartHash);
     }
     public ChartPerformance? GetChartPerformance(long chartHash) {
-        if (!ChartMap.ContainsKey(chartHash)) {
-            return null;
-        }
-        return ChartMap[chartHash];
+        return _chartMap.GetValueOrDefault(chartHash);
     }
 
     public void SetChartPerformance(long chartHash, ChartPerformance chartPerformance) {
-        ChartMap[chartHash] = chartPerformance;
+        _chartMap[chartHash] = chartPerformance;
     }
 
     public void Save(string path) {
@@ -66,41 +76,42 @@ public partial class SaveData : Resource, ISaveInfo{
     }
 
     public void SerializeChartMap(FileAccess file) {
-        file.Store32((uint)ChartMap.Count);
-        foreach (System.Collections.Generic.KeyValuePair<long, ChartPerformance> kvPerformance in ChartMap) {
-            file.Store64((ulong)kvPerformance.Key);
-            ChartPerformance chartPerformance = kvPerformance.Value;
-            file.Store32(chartPerformance.Highscore);
+        file.Store32((uint)_chartMap.Count);
+        foreach (var (key, chartPerformance) in _chartMap) {
+            file.Store64((ulong)key);
+            file.Store32(chartPerformance.HighScore);
             file.Store32(chartPerformance.PerfectHits);
             file.Store32(chartPerformance.TotalHits);
             file.Store32(chartPerformance.GhostHits);
             file.Store32(chartPerformance.ChartTotalNotes);
             file.Store32(chartPerformance.ChartTotalGhostNotes);
             file.Store32(chartPerformance.MaxCombo);
+            file.Store32(chartPerformance.MaxScore);
         }
     }
 
     public void DeserializeChartMap(FileAccess file) {
         uint count = file.Get32();
-        for(uint i = 0; i < count; i++) {
+        for (uint i = 0; i < count; i++) {
             long chartHash = (long)file.Get64();
             ChartPerformance chartPerformance = new ChartPerformance {
-                Highscore = file.Get32(),
+                HighScore = file.Get32(),
                 PerfectHits = file.Get32(),
                 TotalHits = file.Get32(),
                 GhostHits = file.Get32(),
                 ChartTotalNotes = file.Get32(),
                 ChartTotalGhostNotes = file.Get32(),
                 MaxCombo = file.Get32(),
+                MaxScore = file.Get32(),
             };
             SetChartPerformance(chartHash, chartPerformance);
         }
     }
 
-    public void PrintoutChartMap(FileAccess file) {
+    public static void PrintoutChartMap(FileAccess file) {
         uint count = file.Get32();
         GD.Print($"Count: {count}");
-        for(uint i = 0; i < count; i++){
+        for (uint i = 0; i < count; i++) {
             GD.Print($"({i})\n\tChart UID:{file.Get64()}");
             GD.Print($"\tHighscore:{file.Get32()}");
             GD.Print($"\tPerfect Hits:{file.Get32()}");

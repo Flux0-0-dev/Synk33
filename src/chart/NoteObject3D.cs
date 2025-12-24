@@ -8,13 +8,13 @@ public partial class NoteObject3D : Node3D {
     [Export] public NoteType Type;
     [Export] public required Material Material { get; set; }
     [Export] public required Material MaterialGlow { get; set; }
-    
+
     public float Speed = 1;
     public required NoteTime StartTime;
     public Conductor? Conductor;
-    
+
     protected MeshInstance3D? NoteMesh;
-    
+
     private double _lastSongPosition = -1;
 
     public override void _Ready() {

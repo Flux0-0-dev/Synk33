@@ -84,7 +84,7 @@ func change_chart(to:Chart) -> void:
 	song_credit_bpm.info = "%03dBPM" % to.Song.Bpm
 	song_credit_length.info = time_as_string(to.Song.Audio.get_length())
 	
-	song_info_highscore.info = str(SaveManager.GetChartHighscore(to.GetSaveHash()))
+	song_info_highscore.info = str(SaveManager.GetChartHighScore(to.GetSaveHash()))
 	
 	song_credit_charter.info = to.Designer.to_upper()
 	song_credit_level.info = str(to.Level)
@@ -98,7 +98,15 @@ func filter_songs() -> void:
 		if not song.HasChart(current_difficulty):
 			(song_container.get_child(i) as Control).change_disabled(true)
 			continue
-		(song_container.get_child(i) as Control).change_disabled(false)
+		var song_button: SongButton = (song_container.get_child(i) as Control)
+		song_button.change_disabled(false)
+		var chart = song.GetChartByDifficulty(current_difficulty)
+		var performance = SaveManager.GetChartPerformance(chart.GetSaveHash())
+		if performance != null:
+			var rank = performance.GetRank()
+			song_button.grade = rank
+		else:
+			song_button.grade = SongButton.Grade.NONE
 
 
 func _on_difficulty_select_tab_changed(tab: int) -> void:

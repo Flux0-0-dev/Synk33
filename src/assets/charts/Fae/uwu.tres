@@ -11,4 +11,5 @@ Author = "Willow Leyline /Fae"
 Audio = ExtResource("1_s422n")
 Cover = ExtResource("2_0yktl")
 Bpm = 160.0
+Difficulties = 4
 metadata/_custom_type_script = "uid://8gji4fyvkdmy"

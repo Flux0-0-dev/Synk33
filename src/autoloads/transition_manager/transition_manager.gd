@@ -14,7 +14,7 @@ var transitioning:bool
 
 
 @onready var animation_player:AnimationPlayer = $AnimationPlayer
-
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 func _input(_event: InputEvent) -> void:
 	if transitioning:
@@ -26,6 +26,7 @@ func _input(_event: InputEvent) -> void:
 func play_transition(animation_name:StringName = DEFAULT_ANIMATION) -> void:
 	transitioning = true
 	animation_player.play(animation_name)
+	audio_stream_player.play()
 
 ## @deprecated
 ## please use [method play_transition] and [method SceneManager.SwitchToBasicScene].[br]

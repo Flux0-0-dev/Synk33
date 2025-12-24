@@ -1,11 +1,50 @@
-[gd_scene load_steps=6 format=3 uid="uid://ca72nuqqx5fa3"]
+[gd_scene load_steps=13 format=3 uid="uid://djsdst1f8sf2u"]
 
-[ext_resource type="Texture2D" uid="uid://bq623lc385k45" path="res://scenes/menus/song_select/grade_sheet.png" id="1_2vi1v"]
-[ext_resource type="FontFile" uid="uid://di54smy3sg4ob" path="res://fonts/vendsans/vendsans_bold.ttf" id="2_t5byx"]
-[ext_resource type="Script" uid="uid://beusqcv0inspx" path="res://classes/style_box_outburst.gd" id="3_5m01h"]
+[ext_resource type="Texture2D" uid="uid://bq623lc385k45" path="res://scenes/menus/song_select/grade_sheet.png" id="1_b0j3b"]
+[ext_resource type="FontFile" uid="uid://dql8wmgpy2u70" path="res://fonts/vendsans/vendsans_bold.ttf" id="2_ve0i8"]
+[ext_resource type="Script" uid="uid://by33j0y6ofnca" path="res://scenes/menus/results/ResultsScreen.cs" id="2_y0d8f"]
+[ext_resource type="Script" uid="uid://beusqcv0inspx" path="res://classes/style_box_outburst.gd" id="3_ap40w"]
+[ext_resource type="AudioStream" uid="uid://dnb7gs2ba6f57" path="res://assets/audio/music/main_menu/main_menu_theme.mp3" id="5_vsgs0"]
+[ext_resource type="Shader" uid="uid://ddcgjffdmy5p8" path="res://assets/shaders/ps2_dream_void_dark.gdshader" id="7_ap40w"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ve0i8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ap40w"]
+shader = ExtResource("7_ap40w")
+shader_parameter/global_speed = 2.0
+shader_parameter/nebula_color_1 = Color(0.011764706, 0.043137256, 0.023529412, 1)
+shader_parameter/nebula_color_2 = Color(0.043137256, 0.05490196, 0.078431375, 1)
+shader_parameter/nebula_intensity = 1.0
+shader_parameter/nebula_speed = 0.56000002334012
+shader_parameter/nebula_scale = 3.0
+shader_parameter/nebula_roundness = 1.0
+shader_parameter/nebula_swirl = 0.9
+shader_parameter/base_void_color = Color(0, 0, 0, 1)
+shader_parameter/orb_color_1 = Color(0.38431373, 0.94509804, 0.96862745, 1)
+shader_parameter/orb_color_2 = Color(0.98039216, 0.34901962, 0.18039216, 1)
+shader_parameter/orb_color_3 = Color(0.53333336, 0.22352941, 0.9490196, 1)
+shader_parameter/orb_color_4 = Color(0.8901961, 0.12156863, 0.6156863, 1)
+shader_parameter/orb_count = 16
+shader_parameter/orb_brightness = 1.0
+shader_parameter/orb_size = 0.0030000001425
+shader_parameter/tail_length = 2.0
+shader_parameter/tail_fade = 3.0
+shader_parameter/orb_radius = 1.40000004275
+shader_parameter/orb_lens_size = 0.890000042275
+shader_parameter/orb_lens_opacity = 0.5600000266
+shader_parameter/vignette_strength = 0.890000042275
+shader_parameter/grain_amount = 0.0010000000475
+shader_parameter/scanline_strength = 0.08
+shader_parameter/chromatic_aberration = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b0j3b"]
+bg_color = Color(1, 0.1285528, 0.43523848, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ve0i8"]
+bg_color = Color(0, 0.5803922, 0.9490196, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wlbdd"]
-atlas = ExtResource("1_2vi1v")
+atlas = ExtResource("1_b0j3b")
 region = Rect2(0, 0, 101, 90)
 
 [sub_resource type="StyleBox" id="StyleBox_d0q8g"]
@@ -15,7 +54,7 @@ content_margin_left = -1.0
 content_margin_top = -1.0
 content_margin_right = -1.0
 content_margin_bottom = -1.0
-script = ExtResource("3_5m01h")
+script = ExtResource("3_ap40w")
 top_right_offset = Vector2(4, -3)
 bottom_left_offset = Vector2(-12.5, 0)
 bottom_right_offset = Vector2(0, 9)
@@ -29,89 +68,365 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_y0d8f")
 
-[node name="Bg" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("CanvasItemMaterial_ve0i8")
+layout_mode = 0
+offset_top = -360.0
+offset_right = 1920.0
+offset_bottom = 1560.0
+color = Color(0.03165219, 3.2241587e-05, 0.12420338, 1)
+
+[node name="ShaderBackground" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ap40w")
+layout_mode = 0
+offset_top = -360.0
+offset_right = 1920.0
+offset_bottom = 1560.0
 color = Color(0, 0, 0, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Accuracy" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 232.0
+offset_right = 857.0
+offset_bottom = 517.0
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-layout_mode = 2
+[node name="Results" type="Label" parent="Accuracy"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 77.0
+offset_right = 630.0
+offset_bottom = 193.0
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderLarge"
+text = "ACCURACY"
+horizontal_alignment = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Accuracy"]
+layout_mode = 0
+offset_left = -9.0
+offset_top = 168.0
+offset_right = 625.0
+offset_bottom = 568.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Accuracy/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Accuracy/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Results" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_type_variation = &"HeaderLarge"
-text = "RESULTS"
-
-[node name="GridContainer" type="GridContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="PerfectsLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="PerfectLabel" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Perfects"
+theme_override_colors/font_color = Color(0.65882355, 0.38431373, 1, 1)
+text = "Perfect"
 
-[node name="PerfectsCount" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="PerfectCount" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
 layout_mode = 2
 size_flags_horizontal = 10
 text = "30"
 
-[node name="HitsLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="GreatLabel" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Hits"
+theme_override_colors/font_color = Color(0, 0.58431375, 0.93333334, 1)
+text = "Great"
 
-[node name="HitsCount" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="GreatCount" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
 layout_mode = 2
 size_flags_horizontal = 10
-text = "122"
+text = "30"
 
-[node name="MissesLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="OkayLabel" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0.6666667, 0.40784314, 1)
+text = "Okay"
+
+[node name="OkayCount" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "30"
+
+[node name="MissesLabel" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.18431373, 0.28235295, 1)
 text = "Misses"
 
-[node name="MissesCount" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="MissesCount" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
 layout_mode = 2
 size_flags_horizontal = 10
 text = "3,188"
 
-[node name="RankLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HitsLabel" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Hits"
+
+[node name="HitsCount" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "122"
+
+[node name="TotalLabel" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Total"
+
+[node name="TotalCount" type="Label" parent="Accuracy/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "122"
+
+[node name="Combo" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 1000.0
+offset_top = 392.0
+offset_right = 1625.0
+offset_bottom = 1087.0
+
+[node name="Results" type="Label" parent="Combo"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 309.0
+offset_right = 630.0
+offset_bottom = 425.0
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderLarge"
+text = "COMBO"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Combo"]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 400.0
+offset_right = 531.0
+offset_bottom = 544.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Combo/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Combo/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Combo/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="BestComboLabel" type="Label" parent="Combo/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Best"
+
+[node name="BestComboCount" type="Label" parent="Combo/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "122"
+
+[node name="MaxComboLabel" type="Label" parent="Combo/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Max"
+
+[node name="MaxComboCount" type="Label" parent="Combo/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "122"
+
+[node name="Timing" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 217.0
+offset_top = 614.0
+offset_right = 625.0
+offset_bottom = 1152.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Results" type="Label" parent="Timing"]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 408.0
+offset_bottom = 144.0
+theme_type_variation = &"HeaderLarge"
+text = "TIMING"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Timing"]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 408.0
+offset_bottom = 264.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Timing/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Timing/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="HBoxContainer" parent="Timing/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EarlyLabel" type="Label" parent="Timing/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0.5803922, 0.9490196, 1)
+text = "Early"
+
+[node name="LateLabel" type="Label" parent="Timing/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_colors/font_color = Color(1, 0.12941177, 0.43529412, 1)
+text = "Late"
+
+[node name="TimingBar" type="ProgressBar" parent="Timing/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_b0j3b")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ve0i8")
+max_value = 4.0
+step = 1.0
+value = 3.0
+show_percentage = false
+
+[node name="EarlyCount" type="Label" parent="Timing/PanelContainer/MarginContainer/VBoxContainer/TimingBar"]
+unique_name_in_owner = true
+modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -29.0
+offset_right = 70.0
+offset_bottom = 31.0
+grow_vertical = 2
+size_flags_horizontal = 10
+theme_override_colors/font_color = Color(18.892157, 18.892157, 18.892157, 1)
+text = "122"
+
+[node name="LateCount" type="Label" parent="Timing/PanelContainer/MarginContainer/VBoxContainer/TimingBar"]
+unique_name_in_owner = true
+modulate = Color(0.27058825, 0.27058825, 0.27058825, 1)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -29.0
+offset_right = -10.0
+offset_bottom = 31.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 10
+theme_override_colors/font_color = Color(18.892157, 18.892157, 18.892157, 1)
+text = "122"
+horizontal_alignment = 2
+
+[node name="Score" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 1124.0
+offset_top = 52.0
+offset_right = 1532.0
+offset_bottom = 590.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Results" type="Label" parent="Score"]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 408.0
+offset_bottom = 144.0
+theme_type_variation = &"HeaderLarge"
+text = "SCORE"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Score"]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 408.0
+offset_bottom = 381.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Score/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Score/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScoreCount" type="Label" parent="Score/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "3217392"
+horizontal_alignment = 1
+
+[node name="MaxScoreCount" type="Label" parent="Score/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.23934713, 0.23934713, 0.23934713, 1)
+theme_override_font_sizes/font_size = 32
+text = "/ 3217392"
+horizontal_alignment = 1
+
+[node name="RankLabel" type="Label" parent="Score/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "RANK"
 horizontal_alignment = 1
 
-[node name="Rank" type="TextureRect" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Rank" type="TextureRect" parent="Score/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 texture = SubResource("AtlasTexture_wlbdd")
 stretch_mode = 5
+
+[node name="DnfLabel" type="Label" parent="Score/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+theme_override_colors/font_color = Color(0.9432864, 0.10880346, 5.7756904e-07, 1)
+text = "DNF"
+horizontal_alignment = 1
 
 [node name="PlayAgain" type="Button" parent="."]
 layout_mode = 1
@@ -126,7 +441,11 @@ offset_right = -22.0
 offset_bottom = -17.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_t5byx")
+theme_override_fonts/font = ExtResource("2_ve0i8")
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBox_d0q8g")
 text = "PLAY AGAIN?"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_vsgs0")
+autoplay = true

@@ -1,6 +1,8 @@
-﻿using Godot;
-using System.Collections.Generic;
-using SYNK33.Saving;
+﻿using System.Linq;
+using Godot;
+using Godot.Collections;
+using SYNK33.chart;
+using SYNK33.scenes.menus.results;
 using static SYNK33.core.Judgement;
 
 namespace SYNK33.core;
@@ -11,10 +13,11 @@ public partial class ScoreManager : Node {
 
     [Signal]
     public delegate void ScoreChangedEventHandler(int score);
+
     [Signal]
     public delegate void ComboBrokenEventHandler(int combo);
 
-    private readonly Dictionary<Judgement, int> _judgementCounts = new() {
+    private readonly System.Collections.Generic.Dictionary<Judgement, int> _judgementCounts = new() {
         { Perfect, 0 },
         { Great, 0 },
         { Okay, 0 },
@@ -26,7 +29,7 @@ public partial class ScoreManager : Node {
     public int TotalNotes { get; private set; }
     public int MissCount => _judgementCounts[Miss];
     public int Score { get; private set; }
-    public int MaxScore => TotalNotes * CalculateScoreForJudgement(Perfect);
+    public int MaxScore => CalculateMaxPossibleScore();
     public bool IsAllPerfect => MissCount == 0 && _judgementCounts[Perfect] == TotalNotes;
 
     public bool IsFullCombo => MissCount == 0 && TotalHits == TotalNotes;
@@ -35,28 +38,51 @@ public partial class ScoreManager : Node {
                             + _judgementCounts[Great]
                             + _judgementCounts[Okay];
 
-    public int Multiplier => CalculateMultiplier();
+    public int Multiplier => CalculateMultiplier(CurrentCombo);
+
+    public int EarlyCount { get; private set; }
+    public int LateCount { get; private set; }
+
+    public double AccuracyRatio => MaxScore > 0 ? Score / (double)MaxScore : 0.0;
+
+    public Rank CurrentRank => CalculateRank(AccuracyRatio);
 
     public int GetJudgementCount(Judgement judgement) => _judgementCounts[judgement];
 
-    public void SetTotalNotes(int count) {
-        TotalNotes = count;
+    public void InitializeForChart(Array<GodotNote> notes) {
+        // Until we add better HoldNote handling we have to count beginning and end separately
+        TotalNotes = notes.Sum(note => note.IsHoldNote() ? 2 : 1);
     }
 
-    public ChartPerformance ToChartPerformance() {
-        return new ChartPerformance {
-            Highscore = (uint)Mathf.Max(0, Score),
-            PerfectHits = (uint)Mathf.Max(0, _judgementCounts[Perfect]),
-            TotalHits = (uint)Mathf.Max(0, TotalHits),
-            GhostHits = 0, // TODO: Update when ghost notes are added
-            ChartTotalNotes = (uint)Mathf.Max(0, TotalNotes),
-            ChartTotalGhostNotes = 0, // TODO: Update when ghost notes are added
-            MaxCombo = (uint)Mathf.Max(0, BestCombo)
+    public GameplayResults ToGameplayResults(long chartHash) {
+        return new GameplayResults {
+            PerfectCount = _judgementCounts[Perfect],
+            GreatCount = _judgementCounts[Great],
+            OkayCount = _judgementCounts[Okay],
+            MissCount = _judgementCounts[Miss],
+            TotalHits = TotalHits,
+            TotalNotes = TotalNotes,
+            EarlyCount = EarlyCount,
+            LateCount = LateCount,
+            Score = Score,
+            MaxScore = MaxScore,
+            MaxCombo = BestCombo,
+            AccuracyRatio = AccuracyRatio,
+            Rank = CurrentRank,
+            SongFinished = (TotalHits + MissCount) == TotalNotes,
+            ChartHash = chartHash
         };
     }
 
-    public void RegisterHit(Judgement judgement) {
+    public void RegisterHit(Judgement judgement, TimingOffset offset) {
         _judgementCounts[judgement]++;
+
+        if (offset == TimingOffset.Early) {
+            EarlyCount++;
+        } else if (offset == TimingOffset.Late) {
+            LateCount++;
+        }
+
         if (judgement == Miss) {
             ResetCombo();
         } else {
@@ -71,8 +97,7 @@ public partial class ScoreManager : Node {
         ResetCombo();
     }
 
-    private int CalculateMultiplier() {
-        var combo = CurrentCombo;
+    private static int CalculateMultiplier(int combo) {
         return combo switch {
             < 10 => 1,
             < 25 => 2,
@@ -90,6 +115,8 @@ public partial class ScoreManager : Node {
         CurrentCombo = 0;
         BestCombo = 0;
         Score = 0;
+        EarlyCount = 0;
+        LateCount = 0;
         EmitSignalComboChanged(0);
         EmitSignalScoreChanged(0);
     }
@@ -106,7 +133,7 @@ public partial class ScoreManager : Node {
     private void ResetCombo() {
         EmitSignalComboBroken(CurrentCombo);
         CurrentCombo = 0;
-        EmitSignalComboChanged(CurrentCombo); 
+        EmitSignalComboChanged(CurrentCombo);
     }
 
     private void AddScore(int points) {
@@ -122,4 +149,37 @@ public partial class ScoreManager : Node {
             _ => 0
         };
     }
+
+    private int CalculateMaxPossibleScore() {
+        if (TotalNotes == 0) return 0;
+
+        var baseScore = CalculateScoreForJudgement(Perfect);
+        var maxScore = 0;
+
+        for (var i = 1; i <= TotalNotes; i++) {
+            maxScore += baseScore * CalculateMultiplier(i);
+        }
+
+        return maxScore;
+    }
+
+    private static Rank CalculateRank(double accuracyRatio) {
+        return accuracyRatio switch {
+            >= 0.99 => Rank.SPlus,
+            >= 0.95 => Rank.S,
+            >= 0.85 => Rank.A,
+            >= 0.75 => Rank.B,
+            >= 0.60 => Rank.C,
+            _ => Rank.D
+        };
+    }
+}
+
+public enum Rank {
+    D = 0,
+    C = 1,
+    B = 2,
+    A = 3,
+    S = 4,
+    SPlus = 5
 }

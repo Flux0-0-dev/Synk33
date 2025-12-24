@@ -2,3 +2,17 @@ root = true
 
 [*]
 charset = utf-8
+indent_style = space
+indent_size = 4
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+[*.{gd,gdshader}]
+indent_style = tab
+indent_size = 4
+
+[*.{json,xml}]
+indent_style = space
+indent_size = 2

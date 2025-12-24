@@ -11,10 +11,12 @@ enum {
 }
 enum Grade {
 	NONE = -1,
+	D,
 	C,
 	B,
 	A,
-	S
+	S,
+	S_PLUS
 }
 
 

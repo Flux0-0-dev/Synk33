@@ -1,74 +1,65 @@
-using System;
-using System.Linq;
-using System.Reflection;
 using Godot;
-using Godot.Collections;
-using SYNK33.chart;
 
+namespace SYNK33.autoloads.save_manager;
 
-namespace SYNK33.Saving;
-
-
-public partial class SaveManager : Node, ISaveInfo
-{
+public partial class SaveManager : Node, ISaveInfo {
     private const string SavePath = "user://save.sav";
     private const string ChartMapSavePath = "user://chart_map_save.dat";
 
-    private readonly SaveData save;
-    
+    private readonly SaveData _save;
+
     public SaveManager() {
-        save = new SaveData();
+        _save = new SaveData();
         if (!FileAccess.FileExists(SavePath)) {
             Save();
             return;
         }
         Load();
     }
-    // TODO: When saving actually matters, uncomment this
-    /*public override void _Notification(int what)
-    {
-        if (what == NotificationWMCloseRequest)
-        {
-            ResourceSaver.Save(save, SavePath);
+
+    public override void _Notification(int what) {
+        if (what == NotificationWMCloseRequest) {
+            ResourceSaver.Save(_save, SavePath);
         }
-    }*/
-    public bool HasChartPerformance(long chartHash) {
-        return save.HasChartPerformance(chartHash);
-    }
-    
-    public ChartPerformance? GetChartPerformance(long chartHash) {
-        return save.GetChartPerformance(chartHash);
     }
 
-    public long GetChartHighscore(long chartHash) {
-        ChartPerformance? performance = save.GetChartPerformance(chartHash);
-        if (!performance.HasValue) {
+    public bool HasChartPerformance(long chartHash) {
+        return _save.HasChartPerformance(chartHash);
+    }
+
+    public ChartPerformance? GetChartPerformance(long chartHash) {
+        return _save.GetChartPerformance(chartHash);
+    }
+
+    public long GetChartHighScore(long chartHash) {
+        ChartPerformance? performance = _save.GetChartPerformance(chartHash);
+        if (performance is null) {
             return -1;
         }
-        return performance.Value.Highscore;
+        return performance.HighScore;
     }
 
     public void SetChartPerformance(long chartHash, ChartPerformance chartPerformance) {
-        save.SetChartPerformance(chartHash, chartPerformance);
+        _save.SetChartPerformance(chartHash, chartPerformance);
     }
 
     public void Save() {
-        save.Save(SavePath);
+        _save.Save(SavePath);
         FileAccess file = FileAccess.Open(ChartMapSavePath, FileAccess.ModeFlags.Write);
-        save.SerializeChartMap(file);
+        _save.SerializeChartMap(file);
         file.Close();
     }
 
     public void Load() {
-        save.Load(SavePath);
+        _save.Load(SavePath);
         FileAccess file = FileAccess.Open(ChartMapSavePath, FileAccess.ModeFlags.Read);
-        save.DeserializeChartMap(file);
+        _save.DeserializeChartMap(file);
         file.Close();
     }
 
     public void PrintoutChartMap() {
         FileAccess file = FileAccess.Open(ChartMapSavePath, FileAccess.ModeFlags.Read);
-        save.PrintoutChartMap(file);
+        SaveData.PrintoutChartMap(file);
         file.Close();
     }
 }

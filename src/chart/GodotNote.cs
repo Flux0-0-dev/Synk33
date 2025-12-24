@@ -31,4 +31,6 @@ public partial class GodotNote : Resource {
             ? new Note.Hold(new NoteTime(Bar, Beat, Sixteenth), new NoteTime(EndBar, EndBeat, EndSixteenth), Type)
             : new Note.Tap(new NoteTime(Bar, Beat, Sixteenth), Type);
     }
+
+    public bool IsHoldNote() => EndBar != 0;
 }

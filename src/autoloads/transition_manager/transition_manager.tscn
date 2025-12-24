@@ -1,8 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://cd3wtxett1n0p"]
+[gd_scene load_steps=15 format=3 uid="uid://cd3wtxett1n0p"]
 
 [ext_resource type="Script" uid="uid://c2bohsencac6y" path="res://autoloads/transition_manager/transition_manager.gd" id="1_5svwp"]
 [ext_resource type="Shader" uid="uid://cv5mwy6kqyjlo" path="res://autoloads/transition_manager/wipe.gdshader" id="2_s1odp"]
 [ext_resource type="Script" uid="uid://cisjavy2jeloi" path="res://autoloads/transition_manager/wiper.gd" id="3_5p3t2"]
+[ext_resource type="AudioStream" uid="uid://jyotlp04yiat" path="res://assets/audio/sfx/transition/scene_transition_01.wav" id="4_hlrv7"]
+[ext_resource type="AudioStream" uid="uid://cvh86tmqkfrce" path="res://assets/audio/sfx/transition/scene_transition_02.wav" id="4_s1odp"]
+[ext_resource type="AudioStream" uid="uid://cnhwvuvbtma4y" path="res://assets/audio/sfx/transition/scene_transition_03.wav" id="6_pb1mm"]
+[ext_resource type="AudioStream" uid="uid://bjwkay1q6p36w" path="res://assets/audio/sfx/transition/scene_transition_04.wav" id="7_sq01q"]
+[ext_resource type="AudioStream" uid="uid://cgnrhah08jg5m" path="res://assets/audio/sfx/transition/scene_transition_05.wav" id="8_50uhi"]
+[ext_resource type="AudioStream" uid="uid://cbiqnb0hd8xms" path="res://assets/audio/sfx/transition/scene_transition_06.wav" id="9_68g01"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nc1h4"]
 shader = ExtResource("2_s1odp")
@@ -84,6 +90,15 @@ _data = {
 &"wipe": SubResource("Animation_dmvch")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4jice"]
+streams_count = 6
+stream_0/stream = ExtResource("4_hlrv7")
+stream_1/stream = ExtResource("4_s1odp")
+stream_2/stream = ExtResource("6_pb1mm")
+stream_3/stream = ExtResource("7_sq01q")
+stream_4/stream = ExtResource("8_50uhi")
+stream_5/stream = ExtResource("9_68g01")
+
 [node name="Transition" type="CanvasLayer"]
 layer = 99
 script = ExtResource("1_5svwp")
@@ -112,5 +127,9 @@ color = Color(0, 0, 0, 1)
 libraries = {
 &"": SubResource("AnimationLibrary_nc1h4")
 }
+speed_scale = 2.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_4jice")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

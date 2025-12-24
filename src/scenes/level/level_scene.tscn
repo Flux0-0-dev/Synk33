@@ -1,7 +1,7 @@
 [gd_scene load_steps=31 format=3 uid="uid://dkluvwvfg2iyk"]
 
 [ext_resource type="PackedScene" uid="uid://cbpbta52owj4a" path="res://assets/models/rails/rail_02_better_size.tscn" id="1_gagx4"]
-[ext_resource type="Resource" uid="uid://d11d4i7ygqjx6" path="res://assets/charts/Fae/neverending_lullaby_hard.tres" id="2_btjhw"]
+[ext_resource type="Resource" uid="uid://dy6oki16w5u5t" path="res://assets/charts/Fae/uwu_hard.tres" id="2_8jl8h"]
 [ext_resource type="PackedScene" uid="uid://diqccqrvjnp2d" path="res://assets/models/rails/rail_02_better_size_blue.tscn" id="2_nbd8l"]
 [ext_resource type="PackedScene" uid="uid://b6b5i7y5wwrq1" path="res://assets/models/rails/rail_02_better_size_orange.tscn" id="3_hwkc4"]
 [ext_resource type="Script" uid="uid://l5osvw7nm7tr" path="res://core/ScoreManager.cs" id="6_18uvy"]
@@ -43,7 +43,7 @@ fog_sky_affect = 0.0
 
 [node name="Conductor" type="Node" parent="Gameplay" node_paths=PackedStringArray("Player")]
 script = ExtResource("11_18uvy")
-Chart = ExtResource("2_btjhw")
+Chart = ExtResource("2_8jl8h")
 Player = NodePath("../AudioStreamPlayer")
 Bpm = 130.0
 
@@ -70,7 +70,8 @@ InputManager = NodePath("../InputManager")
 script = ExtResource("6_18uvy")
 
 [node name="Spawner" parent="Gameplay" node_paths=PackedStringArray("JudgementManager") instance=ExtResource("15_ppdpw")]
-ScrollSpeed = 8.0
+ScrollSpeed = 6.0
+AudioOffset = -0.1
 JudgementLine = NodePath("../JudgementDebug")
 Conductor = NodePath("../Conductor")
 JudgementManager = NodePath("../JudgementManager")

@@ -5,6 +5,9 @@ namespace SYNK33.core;
 
 [GlobalClass]
 public partial class Conductor : Node {
+    [Signal]
+    public delegate void SongEndedEventHandler();
+
     public double SongPosition;
     public double StartingTimestamp;
     [Export] public required Chart Chart { get; set; }
@@ -22,12 +25,14 @@ public partial class Conductor : Node {
         Player.Stream = Chart.Song.Audio;
         Player.SetPitchScale(Chart.TempoModifier);
         StartingTimestamp = Time.GetUnixTimeFromSystem();
+        Player.Finished += OnAudioFinished;
         Player.Play();
         Bpm = Chart.Bpm;
     }
 
     public override void _ExitTree() {
         base._ExitTree();
+        Player.Finished -= OnAudioFinished;
         Player.Stop();
     }
 
@@ -35,5 +40,9 @@ public partial class Conductor : Node {
         base._Process(delta);
         SongPosition = Player.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix();
         SongPosition -= AudioServer.GetOutputLatency();
+    }
+
+    private void OnAudioFinished() {
+        EmitSignalSongEnded();
     }
 }

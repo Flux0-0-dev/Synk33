@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bw05rhk6d6iip"]
 
 [ext_resource type="Script" uid="uid://cyn8pjq31t334" path="res://scenes/menus/song_select/song_button.gd" id="1_6l0g4"]
-[ext_resource type="Shader" path="res://scenes/menus/song_select/song_button.gdshader" id="1_7e14a"]
+[ext_resource type="Shader" uid="uid://dwfypbyhy6ooy" path="res://scenes/menus/song_select/song_button.gdshader" id="1_7e14a"]
 [ext_resource type="Texture2D" uid="uid://dst3has6m0f4t" path="res://assets/charts/placeholder/Placeholder.png" id="2_62avn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uv50t"]
@@ -91,6 +91,5 @@ shortcut_feedback = true
 shortcut_in_tooltip = true
 script = ExtResource("1_6l0g4")
 title = "PLACEHOLDER"
-grade = 0
 icon = ExtResource("2_62avn")
 metadata/_custom_type_script = "uid://cyn8pjq31t334"
