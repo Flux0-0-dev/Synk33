@@ -30,13 +30,6 @@
 [ext_resource type="PackedScene" uid="uid://6ktn83westp0" path="res://assets/models/UI/ui_elemet_02.tscn" id="21_78aa7"]
 [ext_resource type="PackedScene" uid="uid://ckmhq0mtn2p1e" path="res://ui/judgement_indicator_manager.tscn" id="26_neaty"]
 
-[sub_resource type="Environment" id="Environment_wjff2"]
-background_mode = 1
-glow_enabled = true
-glow_normalized = true
-glow_blend_mode = 4
-fog_sky_affect = 0.0
-
 [node name="Synk33" type="Node3D"]
 
 [node name="Gameplay" type="Node" parent="."]

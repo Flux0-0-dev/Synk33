@@ -1,8 +1,33 @@
-[gd_scene load_steps=4 format=3 uid="uid://dnk0thv8iasnk"]
+[gd_scene load_steps=17 format=3 uid="uid://dnk0thv8iasnk"]
 
 [ext_resource type="Script" uid="uid://cj5um466xlr2g" path="res://scenes/menus/transition_button.gd" id="1_qpju2"]
 [ext_resource type="Script" uid="uid://r62um7roqwig" path="res://scenes/menus/main/tutorial.gd" id="2_qiond"]
 [ext_resource type="Resource" uid="uid://cus44kk21u1cx" path="res://dialogue/tutorial.dialogue" id="3_bep8a"]
+[ext_resource type="Texture2D" uid="uid://dkcm542xm2tim" path="res://assets/textures/ui/logo.png" id="4_bv6an"]
+[ext_resource type="Environment" uid="uid://cx02jn7kksweo" path="res://environments/level.tres" id="5_w7cc5"]
+[ext_resource type="PackedScene" uid="uid://dpyixev5hxkpu" path="res://assets/models/buttons/fret_button/fret_button_blue.tscn" id="6_amjff"]
+[ext_resource type="PackedScene" uid="uid://khpu4o08b3bd" path="res://assets/models/buttons/fret_button/fret_button_orange.tscn" id="7_634rf"]
+[ext_resource type="PackedScene" uid="uid://diqccqrvjnp2d" path="res://assets/models/rails/rail_02_better_size_blue.tscn" id="7_nysi8"]
+[ext_resource type="PackedScene" uid="uid://db0oq6el5wm2v" path="res://assets/models/buttons/fret_button/fret_button_purple.tscn" id="8_n5o1u"]
+[ext_resource type="PackedScene" uid="uid://b6b5i7y5wwrq1" path="res://assets/models/rails/rail_02_better_size_orange.tscn" id="9_odbn6"]
+[ext_resource type="PackedScene" uid="uid://b6gsw7ljxbllx" path="res://assets/models/rails/rail_02_better_size_pink.tscn" id="11_kcv0g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nysi8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_odbn6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kcv0g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qa2qn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wrc37"]
+font_size = 80
+font_color = Color(0, 0, 0, 1)
+outline_color = Color(0, 0, 0, 1)
+stacked_outline_count = 2
+stacked_outline_0/size = 32
+stacked_outline_0/color = Color(1, 1, 1, 1)
+stacked_outline_1/size = 16
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -14,40 +39,141 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+anchors_preset = -1
+anchor_top = 0.24800001
+anchor_right = 1.0
+anchor_bottom = 0.96500003
+offset_left = 2.0
+offset_top = 6.159973
+offset_bottom = -19.200073
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 64
 alignment = 1
 
 [node name="SongSelect" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Song Select"
+size_flags_vertical = 3
+theme_override_constants/outline_size = 64
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_nysi8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_odbn6")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_kcv0g")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qa2qn")
 script = ExtResource("1_qpju2")
 scene = 2
 
+[node name="Label" type="Label" parent="VBoxContainer/SongSelect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.21900001
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 126.51999
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+text = "SONG SELECT"
+label_settings = SubResource("LabelSettings_wrc37")
+vertical_alignment = 1
+
 [node name="Settings" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Settings"
+size_flags_vertical = 3
+theme_override_constants/outline_size = 64
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_nysi8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_odbn6")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_kcv0g")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qa2qn")
 script = ExtResource("1_qpju2")
 scene = 1
 
+[node name="Label" type="Label" parent="VBoxContainer/Settings"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 131.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+text = "SETTINGS"
+label_settings = SubResource("LabelSettings_wrc37")
+vertical_alignment = 1
+
 [node name="Credits" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Credits"
+size_flags_vertical = 3
+theme_override_constants/outline_size = 64
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_nysi8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_odbn6")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_kcv0g")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qa2qn")
 script = ExtResource("1_qpju2")
 scene = 3
 
+[node name="Label" type="Label" parent="VBoxContainer/Credits"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.781
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 125.04199
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderLarge"
+text = "EXIT"
+label_settings = SubResource("LabelSettings_wrc37")
+vertical_alignment = 1
+
 [node name="Tutorial" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_mode = 0
 text = "Tutorial"
 script = ExtResource("2_qiond")
 dialogue = ExtResource("3_bep8a")
+
+[node name="Logo" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.026
+anchor_top = 0.046000004
+anchor_right = 0.48600003
+anchor_bottom = 0.2
+offset_left = 0.07999802
+offset_top = 0.31999588
+offset_right = 0.37994385
+offset_bottom = 0.5
+texture = ExtResource("4_bv6an")
+expand_mode = 1
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1, 0)
+projection = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("5_w7cc5")
+
+[node name="Tracks" type="Node3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0.1)
+
+[node name="FretButtonBlue" parent="Tracks" instance=ExtResource("6_amjff")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="RailBlue" parent="Tracks/FretButtonBlue" instance=ExtResource("7_nysi8")]
+transform = Transform3D(-1.7484556e-08, 0, 0.4, 0, 0.4, 0, -0.4, 0, -1.7484556e-08, 0, -0.9, 0)
+
+[node name="FretButtonOrange" parent="Tracks" instance=ExtResource("7_634rf")]
+
+[node name="RailOrange" parent="Tracks/FretButtonOrange" instance=ExtResource("9_odbn6")]
+transform = Transform3D(-1.7484556e-08, 0, 0.4, 0, 0.4, 0, -0.4, 0, -1.7484556e-08, 0, -0.9, 0)
+
+[node name="FretButtonPurple" parent="Tracks" instance=ExtResource("8_n5o1u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
+
+[node name="RailPurple" parent="Tracks/FretButtonPurple" instance=ExtResource("11_kcv0g")]
+transform = Transform3D(-1.7484556e-08, 0, 0.4, 0, 0.4, 0, -0.4, 0, -1.7484556e-08, 0, -0.9, 0)
