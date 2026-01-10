@@ -5,11 +5,17 @@ using Godot.Collections;
 namespace SYNK33.spawner;
 
 public partial class PooledSpawner : Node {
-    [Export] long StartingPoolSize = 8;
+    [Export] int StartingPoolSize = 8;
     [Export] PackedScene Scene;
 
     private Array<Node> _pool = [];
 
+    public override void _Ready() {
+        _pool.Resize(StartingPoolSize);
+        for (int i = 0; i < StartingPoolSize; i++) {
+            _pool[i] = Scene.Instantiate();
+        }
+    }
     public T Spawn<T>() where T: Node {
         if (_pool.Count == 0) {
             _pool.Add(Scene.Instantiate<T>());
