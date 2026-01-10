@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using Chart = SYNK33.chart.Chart;
 
 namespace SYNK33.core;

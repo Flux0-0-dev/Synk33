@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://b64qfdctfmjg3"]
+[gd_scene load_steps=5 format=3 uid="uid://b64qfdctfmjg3"]
 
-[ext_resource type="Script" path="res://spawner/Spawner3D.cs" id="1_4plqt"]
+[ext_resource type="Script" uid="uid://6kk8lcxg11c4" path="res://spawner/Spawner3D.cs" id="1_4plqt"]
+[ext_resource type="Script" uid="uid://dih5lc4lw5mjd" path="res://spawner/PooledSpawner.cs" id="2_bpfy5"]
+[ext_resource type="PackedScene" uid="uid://dff2uw1n12ai4" path="res://chart/NoteObject3D.tscn" id="3_dgwwe"]
+[ext_resource type="PackedScene" uid="uid://bkjy0kqju108q" path="res://chart/HoldNoteObject3D.tscn" id="4_s2e1q"]
 
 [node name="Spawner" type="Node3D"]
 script = ExtResource("1_4plqt")
+
+[node name="NoteSpawner" type="Node" parent="."]
+script = ExtResource("2_bpfy5")
+Scene = ExtResource("3_dgwwe")
+
+[node name="HoldNoteSpawner" type="Node" parent="."]
+script = ExtResource("2_bpfy5")
+Scene = ExtResource("4_s2e1q")
