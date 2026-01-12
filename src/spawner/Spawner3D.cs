@@ -33,7 +33,7 @@ public partial class Spawner3D : Node3D {
 		_conductor = GetNode<Conductor>(Conductor);
 		_chart = _conductor.Chart;
         _noteSpawner = GetNode<PooledSpawner>("NoteSpawner");
-        _holdNoteSpawner = GetNode<PooledSpawner>("NoteSpawner");
+        _holdNoteSpawner = GetNode<PooledSpawner>("HoldNoteSpawner");
 		SpawnNotes();
 	}
 
