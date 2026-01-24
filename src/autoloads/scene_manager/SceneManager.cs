@@ -18,7 +18,7 @@ public partial class SceneManager : Node {
     private static PackedScene SongSelectPacked = GD.Load<PackedScene>("uid://c75ew37wbtpa2");
     private static PackedScene CreditsPacked = GD.Load<PackedScene>("uid://ovi7mj6ghtqq");
     private static PackedScene GameScene = GD.Load<PackedScene>("uid://dkluvwvfg2iyk");
-    private static PackedScene ResultsScene = GD.Load<PackedScene>("uid://dlj68tfu6oek6");
+    private static PackedScene ResultsScene = GD.Load<PackedScene>("uid://djsdst1f8sf2u");
     private bool isCurrentSceneForeign = true;
 
     private Node MainMenu = null!;

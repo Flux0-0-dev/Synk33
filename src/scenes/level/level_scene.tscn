@@ -123,9 +123,6 @@ transform = Transform3D(1, 0, 0, 0, 0.92050487, 0.39073116, 0, -0.39073113, 0.92
 keep_aspect = 0
 fov = 70.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_wjff2")
-
 [node name="Frets" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.9961947, -0.08715574, 0, 0.08715574, 0.9961947, 0, 0, 0)
 
