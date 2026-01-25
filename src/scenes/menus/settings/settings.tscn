@@ -81,11 +81,18 @@ layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "Custom Offset"
 
+[node name="CustomOffsetDescription" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+theme_override_font_sizes/font_size = 20
+text = "Try starting with smaller numbers like +/- 0.01"
+
 [node name="CustomOffsetSpinBox" type="SpinBox" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
+min_value = -1000.0
+max_value = 1000.0
 step = 0.01
 update_on_text_changed = true
-suffix = "s"
 script = ExtResource("5_csptx")
 property = &"custom_offset"
 
@@ -97,7 +104,7 @@ text = "Scroll Speed"
 [node name="ScrollSpeedSpinBox" type="SpinBox" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 0.1
-max_value = 10.0
+max_value = 20.0
 step = 0.01
 value = 0.1
 update_on_text_changed = true

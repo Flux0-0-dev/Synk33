@@ -34,10 +34,20 @@ public partial class Spawner3D : Node3D {
 		_chart = _conductor.Chart;
         _noteSpawner = GetNode<PooledSpawner>("NoteSpawner");
         _holdNoteSpawner = GetNode<PooledSpawner>("HoldNoteSpawner");
-		SpawnNotes();
+        ApplySettings();
+        SpawnNotes();
 	}
 
-	private void SpawnNotes() {
+    private void ApplySettings() {
+        var settingsManager = GetNode<Node>("/root/SettingsManager");
+        var settings = (GodotObject)settingsManager.Get("current");
+        var scrollSpeed = (float)settings.Get("scroll_speed");
+        ScrollSpeed = scrollSpeed;
+        var customOffset = (float)settings.Get("custom_offset");
+        AudioOffset = customOffset;
+    }
+
+    private void SpawnNotes() {
 		var judgementY = GetNode<Marker3D>(JudgementLine).GlobalPosition.Z;
 		foreach (var note in _chart.Notes) {
 			var absoluteBeat = note.Bar * _chart.BeatsPerMeasure + note.Beat + (float)note.Sixteenth/ 4.0f + AudioOffset;

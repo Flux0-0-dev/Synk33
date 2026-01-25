@@ -80,7 +80,11 @@ public partial class GameManager : Node {
 
     private void OnNoteHeld(NoteType type, long bar, long beat, double sixteenth) {
         _hitNoteSfx?.Play();
-        var player = new AudioStreamPlayer { Stream = _holdNoteSfx!.Stream, MaxPolyphony = 1 };
+        var player = new AudioStreamPlayer {
+            Stream = _holdNoteSfx!.Stream, 
+            MaxPolyphony = 1,
+            Bus = "Sfx"
+        };
         AddChild(player);
         player.Play();
         _holdPlayers[(type, bar, beat, sixteenth)] = player;

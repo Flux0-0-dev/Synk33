@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dkluvwvfg2iyk"]
+[gd_scene load_steps=30 format=3 uid="uid://dkluvwvfg2iyk"]
 
 [ext_resource type="PackedScene" uid="uid://cbpbta52owj4a" path="res://assets/models/rails/rail_02_better_size.tscn" id="1_gagx4"]
 [ext_resource type="Resource" uid="uid://dy6oki16w5u5t" path="res://assets/charts/Fae/uwu_hard.tres" id="2_8jl8h"]
@@ -41,6 +41,7 @@ Player = NodePath("../AudioStreamPlayer")
 Bpm = 130.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Gameplay"]
+bus = &"Music"
 
 [node name="GameManager" type="Node" parent="Gameplay" node_paths=PackedStringArray("Conductor", "InputManager", "JudgementManager", "ScoreManager", "Spawner", "JudgementIndicatorManager")]
 script = ExtResource("10_mvjn5")
@@ -83,36 +84,43 @@ gizmo_extents = 250.0
 unique_name_in_owner = true
 stream = ExtResource("15_3a7vx")
 max_polyphony = 8
+bus = &"Sfx"
 
 [node name="HitNoteGreatSfx" type="AudioStreamPlayer" parent="Gameplay"]
 unique_name_in_owner = true
 stream = ExtResource("16_btjhw")
 max_polyphony = 8
+bus = &"Sfx"
 
 [node name="HitNoteOkaySfx" type="AudioStreamPlayer" parent="Gameplay"]
 unique_name_in_owner = true
 stream = ExtResource("16_8jl8h")
 max_polyphony = 8
+bus = &"Sfx"
 
 [node name="HitNoteSfx" type="AudioStreamPlayer" parent="Gameplay"]
 unique_name_in_owner = true
 stream = ExtResource("18_52274")
 max_polyphony = 8
+bus = &"Sfx"
 
 [node name="HoldNoteSfx" type="AudioStreamPlayer" parent="Gameplay"]
 unique_name_in_owner = true
 stream = ExtResource("10_18uvy")
 max_polyphony = 6
+bus = &"Sfx"
 
 [node name="ComboBreakSfx" type="AudioStreamPlayer" parent="Gameplay"]
 unique_name_in_owner = true
 stream = ExtResource("16_neaty")
 max_polyphony = 6
+bus = &"Sfx"
 
 [node name="MissSfx" type="AudioStreamPlayer" parent="Gameplay"]
 unique_name_in_owner = true
 stream = ExtResource("17_3a7vx")
 max_polyphony = 6
+bus = &"Sfx"
 
 [node name="Score" parent="Gameplay" node_paths=PackedStringArray("ScoreManager") instance=ExtResource("11_78aa7")]
 transform = Transform3D(1, 0, 0, 0, 0.25881907, -0.9659258, 0, 0.9659258, 0.25881907, 1.925, 2.811, 0.5)

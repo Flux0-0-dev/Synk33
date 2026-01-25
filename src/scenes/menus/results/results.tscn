@@ -448,4 +448,5 @@ text = "PLAY AGAIN?"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_vsgs0")
+bus = &"Music"
 autoplay = true
