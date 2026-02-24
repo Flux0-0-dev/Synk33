@@ -34,7 +34,7 @@ public partial class SceneManager : Node {
         Credits = CreditsPacked.Instantiate();
     }
     /// <summary>
-    /// Switch to a basic scene that requires no arguments 
+    /// Switch to a basic scene that requires no arguments
     /// </summary>
     /// <param name="scene"></param>
     public void ChangeSceneToBasicScene(BasicScene scene) {

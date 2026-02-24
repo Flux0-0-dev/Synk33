@@ -44,6 +44,8 @@ static func time_as_string(time:float) -> String:
 
 func _ready() -> void:
 	for song in songs:
+		song.Prepare() # makes a request to the resourc
+		await get_tree().create_timer(0.2).timeout
 		var song_button:SongButton = preload("res://scenes/menus/song_select/song_button.tscn").instantiate()
 		song_button.icon = song.Cover
 		song_button.title = song.Name

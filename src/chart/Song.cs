@@ -1,5 +1,8 @@
+//using System.Collections.Generic;
+using System.ComponentModel;
 using Godot;
 using Godot.Collections;
+using Godot.NativeInterop;
 
 namespace SYNK33.chart;
 
@@ -12,6 +15,8 @@ public partial class Song : Resource {
 	[Export] public Texture2D Cover { get; set; }
 	[Export] public float Bpm { get; set; }
 	[Export(PropertyHint.Flags, "Easy,Medium,Hard,Expert")] public int Difficulties { get; set; }
+
+private Array progress ;
 	private static Dictionary<Difficulty, string> DifficultyMap = new Dictionary<Difficulty, string> {
 		{ Difficulty.Easy, "easy" },
 		{ Difficulty.Medium, "medium" },
@@ -25,11 +30,29 @@ public partial class Song : Resource {
 		}
 
 		string path = $"{ResourcePath.GetBaseName()}_{DifficultyMap[difficulty]}.tres";
-		return GD.Load<Chart>(path);
+		ResourceLoader.ThreadLoadStatus status = ResourceLoader.LoadThreadedGetStatus(path, progress);
+		if (status == ResourceLoader.ThreadLoadStatus.InProgress){
+			return GetChartByDifficulty(difficulty);
+		}
+		Chart? res = ResourceLoader.LoadThreadedGet(path) as Chart;
+		//GD.Print("path requested : "+path);
+		ResourceLoader.LoadThreadedRequest(path);
+		return res ;
 	}
 
 	public bool HasChart(Difficulty difficulty) {
 		return (Difficulties & (1 << (int)difficulty)) != 0;
+	}
+	public	void Prepare(){
+		string path;
+		foreach (var (_, value) in DifficultyMap){
+			
+			path = $"{ResourcePath.GetBaseName()}_{value}.tres";
+			if (FileAccess.FileExists(path)){
+				//GD.Print("path to load : "+path);
+				ResourceLoader.LoadThreadedRequest(path);
+			}
+		}
 	}
 }
 
