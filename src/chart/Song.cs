@@ -35,7 +35,6 @@ private Array progress ;
 			return GetChartByDifficulty(difficulty);
 		}
 		Chart? res = ResourceLoader.LoadThreadedGet(path) as Chart;
-		//GD.Print("path requested : "+path);
 		ResourceLoader.LoadThreadedRequest(path);
 		return res ;
 	}
@@ -49,7 +48,6 @@ private Array progress ;
 			
 			path = $"{ResourcePath.GetBaseName()}_{value}.tres";
 			if (FileAccess.FileExists(path)){
-				//GD.Print("path to load : "+path);
 				ResourceLoader.LoadThreadedRequest(path);
 			}
 		}
