@@ -16,7 +16,6 @@ public partial class Song : Resource {
 	[Export] public float Bpm { get; set; }
 	[Export(PropertyHint.Flags, "Easy,Medium,Hard,Expert")] public int Difficulties { get; set; }
 
-private Array progress ;
 	private static Dictionary<Difficulty, string> DifficultyMap = new Dictionary<Difficulty, string> {
 		{ Difficulty.Easy, "easy" },
 		{ Difficulty.Medium, "medium" },
@@ -30,7 +29,7 @@ private Array progress ;
 		}
 
 		string path = $"{ResourcePath.GetBaseName()}_{DifficultyMap[difficulty]}.tres";
-		ResourceLoader.ThreadLoadStatus status = ResourceLoader.LoadThreadedGetStatus(path, progress);
+		ResourceLoader.ThreadLoadStatus status = ResourceLoader.LoadThreadedGetStatus(path, []);
 		if (status == ResourceLoader.ThreadLoadStatus.InProgress){
 			return GetChartByDifficulty(difficulty);
 		}
