@@ -1,5 +1,6 @@
 //using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 using Godot.NativeInterop;
@@ -35,7 +36,7 @@ public partial class Song : Resource {
 		}
 		Chart? res = ResourceLoader.LoadThreadedGet(path) as Chart;
 		ResourceLoader.LoadThreadedRequest(path);
-		return res ;
+		return res;
 	}
 
 	public bool HasChart(Difficulty difficulty) {
@@ -43,19 +44,18 @@ public partial class Song : Resource {
 	}
 	public	void Prepare(){
 		string path;
-		foreach (var (_, value) in DifficultyMap){
-			
+		foreach (var (_, value) in DifficultyMap){	
 			path = $"{ResourcePath.GetBaseName()}_{value}.tres";
 			if (FileAccess.FileExists(path)){
 				ResourceLoader.LoadThreadedRequest(path);
 			}
 		}
 	}
-}
 
 public enum Difficulty {
 	Easy,
 	Medium,
 	Hard,
 	Expert
+}
 }

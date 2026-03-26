@@ -44,8 +44,8 @@ static func time_as_string(time:float) -> String:
 
 func _ready() -> void:
 	for song in songs:
-		song.Prepare() # makes a request to the resourc
-		await get_tree().create_timer(0.2).timeout
+		song.Prepare() # makes a request to the resource
+		await get_tree().process_frame ## note : everything should load fast enough withouth this line but I made it stop one process frazme just in case 
 		var song_button:SongButton = preload("res://scenes/menus/song_select/song_button.tscn").instantiate()
 		song_button.icon = song.Cover
 		song_button.title = song.Name
