@@ -51,10 +51,10 @@ public partial class Song : Resource {
 		}
 	}
 
-public enum Difficulty {
-	Easy,
-	Medium,
-	Hard,
-	Expert
-}
+	public enum Difficulty {
+		Easy,
+		Medium,
+		Hard,
+		Expert
+	}
 }
