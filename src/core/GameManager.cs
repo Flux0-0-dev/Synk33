@@ -8,6 +8,7 @@ using SYNK33.spawner;
 
 namespace SYNK33.core;
 
+
 public partial class GameManager : Node {
     [Export] public required Conductor Conductor;
     [Export] public required InputManager InputManager;
@@ -55,7 +56,6 @@ public partial class GameManager : Node {
     public override void _Input(InputEvent @event) {
         if (@event.IsActionPressed("ui_cancel")) {
             ExitToResults();
-            GetViewport().SetInputAsHandled();
         }
     }
 

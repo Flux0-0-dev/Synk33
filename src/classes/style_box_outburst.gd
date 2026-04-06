@@ -79,7 +79,6 @@ static func _static_init() -> void:
 	random.randomize()
 	random_inital_state = random.state
 
-
 func _draw(canvas_item: RID, rect: Rect2) -> void:
 	random.state = random_inital_state
 	if not boiling:

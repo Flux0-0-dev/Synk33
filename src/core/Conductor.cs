@@ -19,7 +19,6 @@ public partial class Conductor : Node {
     public float SecondsPerBeat => 60f / Bpm;
 
     public override void _Ready() {
-        base._Ready();
         Player.Stop();
         Player.Stream = null;
         Player.Stream = Chart.Song.Audio;

@@ -7,7 +7,7 @@ extends Control
 @onready var slider:HSlider = $PlaySlider
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player.playing == false:
 		return
 	slider.max_value = player.stream.get_length()

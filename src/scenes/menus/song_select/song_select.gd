@@ -44,6 +44,8 @@ static func time_as_string(time:float) -> String:
 
 func _ready() -> void:
 	for song in songs:
+		song.Prepare() # makes a request to the resource
+		await get_tree().process_frame # note : everything should load fast enough withouth this line but I made it stop one process frazme just in case 
 		var song_button:SongButton = preload("res://scenes/menus/song_select/song_button.tscn").instantiate()
 		song_button.icon = song.Cover
 		song_button.title = song.Name
@@ -69,7 +71,6 @@ func set_current_song(to:Song) -> void:
 	if chart == null:
 		(song_display_card.material as ShaderMaterial).set_shader_parameter(&"greyscale", true)
 		audio_stream_player.stop()
-		#assert(false, "No chart found for current difficulty")
 		return
 	for difficulty in len(Difficulty):
 		(song_display_card.material as ShaderMaterial).set_shader_parameter(&"greyscale", false)

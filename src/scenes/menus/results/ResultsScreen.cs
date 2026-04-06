@@ -57,8 +57,8 @@ public partial class ResultsScreen : Control {
 
     public override void _Input(InputEvent @event) {
         if (@event.IsActionPressed("ui_cancel")) {
-            ExitToSongSelect();
             GetViewport().SetInputAsHandled();
+            ExitToSongSelect();
         }
     }
 

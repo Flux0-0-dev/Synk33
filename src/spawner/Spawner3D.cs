@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 using SYNK33.chart;
@@ -49,11 +51,13 @@ public partial class Spawner3D : Node3D {
 
     private void SpawnNotes() {
 		var judgementY = GetNode<Marker3D>(JudgementLine).GlobalPosition.Z;
-		foreach (var note in _chart.Notes) {
+		Parallel.ForEach(_chart.Notes, note =>
+		{
 			var absoluteBeat = note.Bar * _chart.BeatsPerMeasure + note.Beat + (float)note.Sixteenth/ 4.0f + AudioOffset;
 			var spawnY = absoluteBeat * ScrollSpeed * judgementY;
-			SpawnNote(note.ToNote(), new Vector2(0, -spawnY));
-		}
+			Callable spawn_note = Callable.From(() => {SpawnNote(note.ToNote(), new Vector2(0, -spawnY));});
+			spawn_note.CallDeferred();
+		});
 	}
 
 	private void SpawnNote(Note note, Vector2 position) {
