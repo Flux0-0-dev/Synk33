@@ -55,7 +55,6 @@ public partial class Spawner3D : Node3D {
 		{
 			var absoluteBeat = note.Bar * _chart.BeatsPerMeasure + note.Beat + (float)note.Sixteenth/ 4.0f + AudioOffset;
 			var spawnY = absoluteBeat * ScrollSpeed * judgementY;
-			//SpawnNote(note.ToNote(), new Vector2(0, -spawnY));
 			Callable spawn_note = Callable.From(() => {SpawnNote(note.ToNote(), new Vector2(0, -spawnY));});
 			spawn_note.CallDeferred();
 		});
