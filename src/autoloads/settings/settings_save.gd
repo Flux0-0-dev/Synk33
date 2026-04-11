@@ -28,7 +28,7 @@ static var input_regex:RegEx = RegEx.create_from_string(r"([^\/]+)(?:\/(.+))?")
 #region Gameplay
 @export_group("Gameplay")
 @export_range(0, 1.0, 0.001, "or_greater") var custom_offset:float = 0.0
-@export_range(0.1, 10.0, 0.01, "or_greater") var scroll_speed:float = 1.0
+@export_range(0.1, 10.0, 0.01, "or_greater") var scroll_speed:float = 2.8
 #endregion Gameplay
 
 #region Input
