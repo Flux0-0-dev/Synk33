@@ -2,6 +2,8 @@ name: Release
 
 env:
   GODOT_VERSION: 4.5.1
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 
 on:
   push:
@@ -15,23 +17,55 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          lfs: true
+          fetch-depth: 0
 
-      - name: Build game
-        id: build
-        uses: firebelley/godot-export@v5.2.1
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/${{ env.GODOT_VERSION }}-stable/Godot_v${{ env.GODOT_VERSION }}-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/${{ env.GODOT_VERSION }}-stable/Godot_v${{ env.GODOT_VERSION }}-stable_export_templates.tpz
-          relative_project_path: ./src
-          use_preset_export_path: true
-          archive_output: true
+          dotnet-version: '9.0.x'
+
+      - name: Build .NET project
+        run: dotnet build ./src/*.csproj
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          use-dotnet: true
+          include-templates: true
+
+      - name: Import project (may crash but imports assets)
+        continue-on-error: true
+        run: |
+          godot --headless --path ./src --import --quit || true
+
+      - name: Export Linux
+        run: |
+          mkdir -p ./src/builds/linux
+          godot --headless --path ./src --export-release linux_release ./builds/linux/linux_release.x86_64 || true
+          if [ ! -f ./src/builds/linux/linux_release.x86_64 ]; then
+            echo "ERROR: Linux export failed - binary not found"
+            exit 1
+          fi
+          echo "✓ Linux export successful"
+
+      - name: Export Windows
+        run: |
+          mkdir -p ./src/builds/windows
+          godot --headless --path ./src --export-release windows ./builds/windows/windows_release.x86_64.exe || true
+          if [ ! -f ./src/builds/windows/windows_release.x86_64.exe ]; then
+            echo "ERROR: Windows export failed - binary not found"
+            exit 1
+          fi
+          echo "✓ Windows export successful"
+
+      - name: Archive exports
+        run: |
+          cd ./src/builds/linux && zip -r ../linux_release.zip . && cd ../../..
+          cd ./src/builds/windows && zip -r ../windows_release.zip . && cd ../../..
 
       - name: Show build directory
-        run: ls -R "${{ steps.build.outputs.build_directory }}"
-
-      - name: Show archive directory
-        run: ls -R "${{ steps.build.outputs.archive_directory }}"
+        run: ls -R ./src/builds/
 
       - name: Create GitHub release
         uses: ncipollo/release-action@v1
@@ -39,18 +73,21 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
           tag: ${{ github.ref_name }}
-          artifacts: ${{ steps.build.outputs.archive_directory }}/**/*.zip
+          artifacts: ./src/builds/*.zip
           allowUpdates: true
-  
+
       - name: Make get_butler.sh executable
-        run: chmod +x ./get_butler.sh  
+        run: chmod +x ./get_butler.sh
 
       - name: Deploy to itch.io
         run: |
           ./get_butler.sh
           BUTLER_API_KEY=${{ secrets.BUTLER_API_KEY }} ./butler --verbose push \
-            "${{ steps.build.outputs.build_directory }}/web_release" \
-            "${{ vars.ITCHIO_USERNAME }}/${{ vars.ITCHIO_GAME }}:web"
+            ./src/builds/linux_release.zip \
+            "${{ vars.ITCHIO_USERNAME }}/${{ vars.ITCHIO_GAME }}:linux"
+          BUTLER_API_KEY=${{ secrets.BUTLER_API_KEY }} ./butler --verbose push \
+            ./src/builds/windows_release.zip \
+            "${{ vars.ITCHIO_USERNAME }}/${{ vars.ITCHIO_GAME }}:windows"
 
       - name: Send Discord notification
         env:
